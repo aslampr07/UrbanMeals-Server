@@ -1,4 +1,5 @@
 var express = require('express');
+var con = require('./config/db');
 
 var app = express();
 
