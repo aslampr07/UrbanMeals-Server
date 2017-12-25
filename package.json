@@ -1,0 +1,19 @@
+{
+  "name": "urbanmeals-server",
+  "version": "1.0.0",
+  "description": "The backend for the UrbanMeals Service",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "production@192.168.0.101:/home/production/repo/UrbanMeals-Server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mysql": "^2.15.0"
+  }
+}
