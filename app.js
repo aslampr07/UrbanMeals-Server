@@ -3,8 +3,6 @@ var con = require('./config/db');
 
 var app = express();
 
-app.get('/', function(req, res){
-    res.send("Working fine");
-})
+app.use('/api/1.0/restaurant', require('./routes/restaurant')(con));
 
 app.listen(8000);
