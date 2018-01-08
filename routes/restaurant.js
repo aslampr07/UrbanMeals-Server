@@ -5,10 +5,12 @@ module.exports = function(con){
     var router = express.Router();
     router.get('/', function(req, res){
         if(req.query.lat && req.query.lon && req.query.count){
+            //Validation of the queries have not been done. 
             var latitude = parseFloat(req.query.lat);
             var longitude = parseFloat(req.query.lon);
             var count = parseInt(req.query.count);
             
+            //Retrieves the items
             var sql = mysql.format("SELECT name, code, calculate_distance(latitude, longitude, ?, ?)" +
              " AS distance FROM Hotel ORDER BY distance LIMIT ?", [latitude, longitude, count]);
             con.query(sql, function(err, rows){
