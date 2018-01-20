@@ -42,7 +42,7 @@
           </label>
         </span>
         <span class="input input--hoshi">
-          <input class="input__field input__field--hoshi" type="text" id="password" />
+          <input class="input__field input__field--hoshi" type="tel" id="phone" />
           <label class="input__label input__label--hoshi input__label--hoshi-color-3" for="password">
             <span class="input__label-content input__label-content--hoshi">Phone</span>
           </label>
@@ -54,7 +54,7 @@
           </label>-->
         </span>
         <div class="cta">
-          <button class="btn btn-primary pull-left">
+          <button class="btn btn-primary pull-left" id="submit">
             Register
           </button>
           <!-- <span><a href="#">I am already a member</a></span> -->
@@ -107,6 +107,24 @@
       }
     }
   })();
+
+  $('#submit').click(function(){
+    var name = $('#name').val();
+    var email = $('#email').val();
+    var phone = $('#phone').val();
+
+    var request = {
+      'name' : name,
+      'email': email,
+      'phone': phone
+    };
+
+    $.post('/api/1.0/account/register', request, function(data, status){
+        alert("posted");
+    });
+
+  })
+
 </script>
 
 </body>

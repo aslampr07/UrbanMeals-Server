@@ -9,10 +9,10 @@ var Hashid = require('hashids');
 module.exports = function (con) {
     var router = express.Router();
 
-    router.get('/register', function (req, res) {
-        var name = req.query.name;
-        var email = req.query.email;
-        var phone = req.query.phone;
+    router.post('/register', function (req, res) {
+        var name = req.body.name;
+        var email = req.body.email;
+        var phone = req.body.phone;
 
         var id = new Hashid("Launching Soon", 5);
 
