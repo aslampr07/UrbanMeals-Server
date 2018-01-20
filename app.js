@@ -6,6 +6,10 @@ var app = express();
 
 app.use(express.urlencoded({extended:true}));
 
+//WebPage
+
+app.use('/', express.static('public'));
+
 //Routes
 app.use('/api/1.0/restaurant', require('./routes/restaurant')(con));
 app.use('/api/1.0/items', require('./routes/items')(con));
