@@ -9,6 +9,7 @@ app.use(express.urlencoded({extended:true}));
 //WebPage
 
 app.use('/', express.static('public'));
+app.use('/register', express.static('public/register'));
 
 //Routes
 app.use('/api/1.0/restaurant', require('./routes/restaurant')(con));

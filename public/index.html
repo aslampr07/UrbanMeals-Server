@@ -1,131 +1,348 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+    <head>
+    
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title></title>
+    
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  
+        
+        <style type="text/css">
+        
+           
+            
+       
+            #googleIcon {
+                
+                padding-right: 20px;
+                
+            }
+                 #cardImage {
+              
+              width: 100px;
+              height: 100px;
+              
+              
+          }
+              #cardStack {
+              
+              margin: 10px 100px;
+              
+          }
+             .img-responsive {
+                margin: 0 auto;
+            }
+                 #middleJumbo {
+              
+                background-color: white;
+                     
+                
+          }
+          
+            
+            #facebookLogo {
+                
+                padding-right: 20px;
+                
+            }
+         
+             #headerJumbo {
+              
+              background-image: url( /img/mike-wilson-207128.jpg);
+              background-position: center;
+                 background-attachment: fixed;
+              color: white;
+              margin: 0 auto;
+              padding-top: 200px;
+              height: 600px;  
+              background-repeat: no-repeat;
+              background-size: 100%; 
+              transition: 1s ease-in-out;
+                 border-radius: 55px 55px 55px 55px;
+              
+              
+          }
+            
+            #foodieLogo {
+                
+                width: 200px;
+                height: 200px;
+            }
 
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/set1.css">
+                .imageSize {
+            
+            width: 100%;
+            height: 600px;
+        }
+            
+            .carousel-caption {
+                
+                    color: black;
+                    right: 37%;
+                    top: 40%;
+                    text-align: center;
+                    max-width: 500px;
+                    left: auto;
+                    
+            }
+            
+         
+            }
+            
+            #searchSection {
+                
+                position: relative;
+                top: -20%;
+                
+                
+            }
+           
+            
+    
+           
+            
+              #cardImage {
+              
+              width: 100px;
+              height: 100px;
+              
+              
+          }
+            
+        
+            #footer {
+                padding-bottom: 0;
+                background-color: #f0ad4e;
+            }
+            
+            #aboutSection {
+                padding-top: 25px;
+                
+            }
+            
+            .fa {
+                padding: 15px;
+                font-size: 50px;
+                color: #000000;
+                
+            }
+            
+            a:hover {
+                color: black;
+                text-decoration: none;
+            }
+            
+          
+            
+              @media (max-width: 600px) {
+                #cardStack {
+                        font-size: 15px;
+                }
+                  #header {
+                      font-size: 15px;
+                  }
+                  
+                  #cardImage {
+                      
+                      width: 50px;
+                      height: 50px;
+                  }
+                  
+                  #connectTitle {
+                      font-size: 25px;
+                  }
+                  
+                  #email {
+                      font-size: 15px;
+                  }
+                   #hjTitle {
+                       font-size: 15px;
+                  }
+                  
+                  #aboutSection 
+                  
+                  h2 {
+                      font-size: 58px;
+                  }
+                  p{
+                      font-size: 0px;
+                      
+                  }
+                  #headerJumbo {
+                      height: 550px;
+                      background-size: 600px 600px; 
+                  }
+                  
+                  #middleJumbo h1{
+                      
+                      font-size: 55px;
+                      padding-bottom: 10px;
+                  }
+                  
+                  #cardDetails {
+                      
+                      font-size: 10px;
+                  }
+                  
+                  #middleJumbo {
+                      height: 350px;
+                  }
+                  
+                     #foodieLogo {
+                
+                width: 150px;
+                height: 150px;
+            }
+            }
+            
+   
 
-  <!--Google Fonts-->
-  <link href='https://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+        </style>
+    
+        
+    
+    </head>
+    
+  
+    <body>
+    
+        <nav class="navbar navbar-toggleable-md fixed-top navbar-inverse bg-inverse">
+              <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <a class="navbar-brand" href="#">Urban Meals</a>
 
-</head>
-
-<body>
-<div id="main-wrapper">
-
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6 left-side">
-        <header>
-<!--          <span>Create Account Now</span> -->
-          <h3>Be a Prime Member</h3>
-        </header>
-      </div>
-      <div class="col-md-6 right-side">
-        <span class="input input--hoshi">
-          <input class="input__field input__field--hoshi" type="text" id="name" />
-          <label class="input__label input__label--hoshi input__label--hoshi-color-3" for="name">
-            <span class="input__label-content input__label-content--hoshi">Name</span>
-          </label>
-        </span>
-        <span class="input input--hoshi">
-          <input class="input__field input__field--hoshi" type="text" id="email" />
-          <label class="input__label input__label--hoshi input__label--hoshi-color-3" for="email">
-            <span class="input__label-content input__label-content--hoshi">E-mail</span>
-          </label>
-        </span>
-        <span class="input input--hoshi">
-          <input class="input__field input__field--hoshi" type="tel" id="phone" />
-          <label class="input__label input__label--hoshi input__label--hoshi-color-3" for="password">
-            <span class="input__label-content input__label-content--hoshi">Phone</span>
-          </label>
-        </span>
-        <!--<span class="input input--hoshi">
-          <input class="input__field input__field--hoshi" type="password" id="password1" />
-          <label class="input__label input__label--hoshi input__label--hoshi-color-3" for="password1">
-            <span class="input__label-content input__label-content--hoshi">Repeat Passowrd</span>
-          </label>-->
-        </span>
-        <div class="cta">
-          <button class="btn btn-primary pull-left" id="submit">
-            Register
-          </button>
-          <!-- <span><a href="#">I am already a member</a></span> -->
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                <!--  <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                  </li> -->
+                
+                </ul>
+           
+              </div>
+        </nav>
+        
+       
+        
+        
+        <div class="jumbotron jumbotron-fluid d-flex flex-column justify-content-center align-items-center" id="headerJumbo">
+          
+          
+            <img id="foodieLogo" src="/img/logotransperent.png">
+         
+          <p id="hjTitle" class="lead" style="color:#FCBD32; font-weight:bold">Find the places which serve your favourite meal !</p>
+          <hr class="my-2">
+            <form class="form-inline">
+               
+              <button class="btn btn-outline-warning" id="signUpButton" type="button" data-toggle="modal" data-target="#signUpModal">Sign up</button>
+         </form>
         </div>
-      <!--  <ul class="social list-inline">
-          <li><a href="#">Instagram</a></li>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">Twitter</a></li>
-        </ul>-->
+           
+                 
+                <div id="aboutSection" class="container text-center">
+                    <h2 class="display-3" > About us</h2>
+                    <div class="row">
+                        <div class="col-md-12">
+                        <p class="lead" ><span style="font-size: 30px;, font-weight: bolder"> Urban meals </span>, is a start up aiming at the foodie population to discover  eateries of your choice around the town. The app will aid to explore popular yet pocket friendly restaurants, featuring the highlights of the menu so that you can get tummy filled in affordable expense.
+Let your taste buds feel some goosebumps by finding all way to choose the best for tasting the best. </p>
+<p class="lead">
+Presenting novel food trends among the urban circle, is an application in role to ease food navigation. This helps the foodie in you to choose and have your favourite cuisine with a single tap.
+
+Binding up all the elements to meet with the adequecies for a food hunt, Urban meals provides with myriad options to engage a foodie as a whole through food reviews, blogging and other social connections.</p>
+                        
+                        </div>
+                    
+                    </div>
+                    
+                </div>
+        
+              <div class="jumbotron jumbotron-fluid text-center" id="middleJumbo">
+          <div class="container">
+            <h1 class="display-3">How to become a part of us?</h1>
+            <p class="lead">it's Simple, follow the steps specifed below !</p>
+          </div>
       </div>
+  
+      
+      <div id="cardStack" class="row">
+          <div class="col-md-4">
+            <div>
+                <img  class="img-responsive mx-auto d-block" src="/img/signup-symbol.jpg" alt="Card image cap" id="cardImage">
+              <div>
+                <h3 id="header" class="text-center">SignUp </h3>
+                  <br>
+                <p id="cardDetails" class="text-center">Download the app and signup providing the valid information needed.</p>
+                
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div >
+                <img class="img-responsive mx-auto d-block" src="/img/task-symbol.jpg" alt="Card image cap" id="cardImage">
+              <div>
+                <h3 id="header" class="text-center">Complete the Survey</h3>
+                  <br>
+                <p id="cardDetails" class="text-center">Complete the survey that we have set up for you.</p>
+                
+              </div>
+            </div>
+          </div>
+           <div class="col-md-4">
+            <div >
+                 <img class="img-responsive mx-auto d-block" src="/img/reward-symbol.jpg" alt="Card image cap" id="cardImage">
+              <div >
+                <h3 id="header" class="text-center">Become a Prime Member</h3>
+                  <br>
+                <p id="cardDetails" class=" text-center">Become a Prime Member and gain benifits that you can only have.</p>
+               
+              </div>
+            </div>
+          </div>
     </div>
+        
+    <div id="footer" class="container-fluid text-center">
+      
+      <div  class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4" id="connectTitle">Connect with us</h1>
+    <p class="lead" id="email"> urbanmeals@outlook.com </p>
+      <a class="fa fa-instagram" aria-hidden="true" href="#"></a>
+      <a class="fa fa-twitter" aria-hidden="true" href="#"></a>
+      <a class="fa fa-facebook" aria-hidden="true" href="#"></a>
+      
   </div>
-</div> <!-- end #main-wrapper -->
+</div>
+        
+        
+    
+        
+        
+        
+    </div>
 
-<!-- Scripts -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="js/scripts.js"></script>
-<script src="js/classie.js"></script>
-<script>
-  (function() {
-    // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
-    if (!String.prototype.trim) {
-      (function() {
-        // Make sure we trim BOM and NBSP
-        var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
-        String.prototype.trim = function() {
-          return this.replace(rtrim, '');
-        };
-      })();
-    }
+  
 
-    [].slice.call( document.querySelectorAll( 'input.input__field' ) ).forEach( function( inputEl ) {
-      // in case the input is already filled..
-      if( inputEl.value.trim() !== '' ) {
-        classie.add( inputEl.parentNode, 'input--filled' );
-      }
+        
+        
+    
+        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <script src="https://use.fontawesome.com/408b490622.js"></script>
 
-      // events:
-      inputEl.addEventListener( 'focus', onInputFocus );
-      inputEl.addEventListener( 'blur', onInputBlur );
-    } );
+        <script>
+            $('#signUpButton').click(function(){
+                window.location = '/register';
+            });
+        </script>
+  
+    </body>
 
-    function onInputFocus( ev ) {
-      classie.add( ev.target.parentNode, 'input--filled' );
-    }
-
-    function onInputBlur( ev ) {
-      if( ev.target.value.trim() === '' ) {
-        classie.remove( ev.target.parentNode, 'input--filled' );
-      }
-    }
-  })();
-
-  $('#submit').click(function(){
-    var name = $('#name').val();
-    var email = $('#email').val();
-    var phone = $('#phone').val();
-
-    var request = {
-      'name' : name,
-      'email': email,
-      'phone': phone
-    };
-
-    $.post('/api/1.0/account/register', request, function(data, status){
-        alert("posted");
-    });
-
-  })
-
-</script>
-
-</body>
 </html>
