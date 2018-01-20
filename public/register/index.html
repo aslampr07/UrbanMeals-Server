@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title></title>
+  <title>Register</title>
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="/css/style.css">
@@ -120,7 +120,9 @@
     };
 
     $.post('/api/1.0/account/register', request, function(data, status){
-        alert("posted");
+      if(data.status == 'success'){
+        location.href = "/survey";
+      }
     });
 
   })

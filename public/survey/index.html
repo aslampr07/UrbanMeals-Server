@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+    <head>
+    
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  
+        
+        <style type="text/css">
+        
+       
+             .img-responsive {
+                margin: 0 auto;
+            }
+                .imageSize {
+            
+            width: 100%;
+            height: 600px;
+        }
+            
+            .carousel-caption {
+                
+                    color: black;
+                    right: 37%;
+                    top: 40%;
+                    text-align: center;
+                    max-width: 500px;
+                    left: auto;
+                    
+            }
+            
+            #searchSection {
+                
+                position: relative;
+                top: -20%;
+                
+                
+            }
+            
+            #headJumbo {
+                
+                height: 350px;
+                width: auto;
+            }
+
+            #progressBar {
+                width: 600px;
+                margin-left: 450px;
+            }
+            
+    
+           
+            @media (max-width: 600px) {
+                #surveySection {
+                max-width:300%;
+                width:150%;
+                min-height: 300px;
+                padding-left: 50px;
+                    font-size: 13px;
+                }
+                #progressBar{
+                    margin-left: 0px;
+                    width: 350px;
+                }
+                
+                #surveyTitle {
+                    font-size: 40px;
+                }
+                #surveySubTitle {
+                    font-size: 15px;
+                }
+                #headJumbo {
+                    height: 250px;
+                }
+                 }
+     
+
+        </style>
+    
+        
+    
+    </head>
+    
+  
+    <body>
+    
+        <nav class="navbar navbar-toggleable-md fixed-top navbar-inverse bg-inverse">
+          
+              <a class="navbar-brand" href="#">Urban Meals</a>
+
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                <!--  <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                  </li> -->
+                 
+                </ul>
+               
+              </div>
+        </nav>
+        
+        
+      <div class="jumbotron jumbotron-fluid d-flex flex-column justify-content-center align-items-center" id="headJumbo">
+  
+    <h1 class="display-4" style="padding-top: 40px;" id="surveyTitle">Take our Survey</h1>
+    <p class="lead" id="surveySubTitle">Take our simple survey by answering few questions to become a prime membership</p>
+  
+</div>
+
+        <div id="surveySection" class="form-group row">
+                <div class="col-sm-4"></div>
+            <div class="col-sm-8">
+                                <div>
+                                    <div class="form-group">
+                                    <label for="formGroupExampleInput">How often do you dine out ?</label>
+
+                                      </div>
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1" value="option1" checked>
+                                      <label class="form-check-label" for="exampleRadios1">
+                                        Occassionaly.
+                                      </label>
+                                    </div>
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios2" value="option2">
+                                      <label class="form-check-label" for="exampleRadios2">
+                                        Once every week.
+                                      </label>
+                                    </div>
+                                    <div class="form-check ">
+                                      <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios3" value="option3">
+                                      <label class="form-check-label" for="exampleRadios3">
+                                        two or more times a month.
+                                      </label>
+                                    </div>
+                                    <div class="form-check ">
+                                      <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios3" value="option4">
+                                      <label class="form-check-label" for="exampleRadios3">
+                                        sick of places around me.
+                                      </label>
+                                    </div>
+                                    <br> 
+                            </div>
+                            <div>
+                                    <div class="form-group">
+                                    <label for="formGroupExampleInput">How much do you typically spend on food ?</label>
+
+                                      </div> <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios2" id="exampleRadios1" value="option1" checked>
+                                      <label class="form-check-label" for="exampleRadios1">
+                                        below 500.
+                                      </label>
+                                    </div>
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios2" id="exampleRadios2" value="option2">
+                                      <label class="form-check-label" for="exampleRadios2">
+                                        below 1000.
+                                      </label>
+                                    </div>
+                                    <div class="form-check ">
+                                      <input class="form-check-input" type="radio" name="exampleRadios2" id="exampleRadios3" value="option3">
+                                      <label class="form-check-label" for="exampleRadios3">
+                                        above 1000 ( i eat alot).
+                                      </label>
+                                    </div>
+                                    <div class="form-check ">
+                                      <input class="form-check-input" type="radio" name="exampleRadios2" id="exampleRadios3" value="option4">
+                                      <label class="form-check-label" for="exampleRadios3">
+                                        it depends on my hunger.
+                                      </label>
+                                    </div>
+                                    <br> 
+                            </div>
+                 <div>
+                                    <div class="form-group">
+                                    <label for="formGroupExampleInput">Do you consider yourself to eat healthy ?</label>
+
+                                      </div> <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios3" id="exampleRadios1" value="option1" checked>
+                                      <label class="form-check-label" for="exampleRadios1">
+                                        Yes, i do!.
+                                      </label>
+                                    </div>
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios3" id="exampleRadios2" value="option2">
+                                      <label class="form-check-label" for="exampleRadios2">
+                                        Sometimes.
+                                      </label>
+                                    </div>
+                                    <div class="form-check ">
+                                      <input class="form-check-input" type="radio" name="exampleRadios3" id="exampleRadios3" value="option3">
+                                      <label class="form-check-label" for="exampleRadios3">
+                                        say that to my tummy, i just eat.
+                                      </label>
+                                    </div>
+                                    <div class="form-check ">
+                                      <input class="form-check-input" type="radio" name="exampleRadios3" id="exampleRadios3" value="option4">
+                                      <label class="form-check-label" for="exampleRadios3">
+                                        rather not say.
+                                      </label>
+                                    </div>
+                                    <br> 
+                            </div>
+                 <div>
+                                    <div class="form-group">
+                                    <label for="formGroupExampleInput">Do you prefer to eat alone or with company?</label>
+
+                                      </div> <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios4" id="exampleRadios1" value="option1" checked>
+                                      <label class="form-check-label" for="exampleRadios1">
+                                       i eat alone. ( less expense :P )
+                                      </label>
+                                    </div>
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios4" id="exampleRadios2" value="option2">
+                                      <label class="form-check-label" for="exampleRadios2">
+                                        i would love to have company.
+                                      </label>
+                                    </div>
+                                    <div class="form-check ">
+                                      <input class="form-check-input" type="radio" name="exampleRadios4" id="exampleRadios3" value="option3">
+                                      <label class="form-check-label" for="exampleRadios3">
+                                        only for dinner date.
+                                      </label>
+                                    </div>
+                                    <div class="form-check ">
+                                      <input class="form-check-input" type="radio" name="exampleRadios4" id="exampleRadios3" value="option4">
+                                      <label class="form-check-label" for="exampleRadios3">
+                                        rather not say.
+                                      </label>
+                                    </div>
+                                    <br> 
+                            </div>
+                 <div>
+                                    <div class="form-group">
+                                    <label for="formGroupExampleInput">Do you wish to collab with us ?</label>
+
+                                      </div> <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios5" id="exampleRadios1" value="option1" checked>
+                                      <label class="form-check-label" for="exampleRadios1">
+                                      why not.
+                                      </label>
+                                    </div>
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="exampleRadios5" id="exampleRadios2" value="option2">
+                                      <label class="form-check-label" for="exampleRadios2">
+                                       im pretty occupied.
+                                      </label>
+                                    </div>
+                                
+                                    <br> 
+                            </div>
+            <button type="submit" class="btn btn-outline-warning" id="surveySubmit" data-toggle ="modal" data-target="#sucessMessage">Submit</button>
+                
+                     <div class="modal fade" id="sucessMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Congragulation! you have succesfuly completed the registration process. You will recieve a Prime membership code in your email soon. 
+          Thank you!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+                
+            </div>
+
+              
+            
+        </div>
+   
+        <div class="progress" id="progressBar">
+            <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <script>
+          $('#surveySubmit').click(function(){
+            var q1 = $("input[name='exampleRadios1']:checked").val();
+            var q2 = $("input[name='exampleRadios2']:checked").val();
+            var q3 = $("input[name='exampleRadios3']:checked").val();
+            var q4 = $("input[name='exampleRadios4']:checked").val();
+            var q5 = $("input[name='exampleRadios5']:checked").val();
+
+            var request = {
+              'q1' : q1,
+              'q2' : q2,
+              'q3' : q3,
+              'q4' : q4,
+              'q5' : q5
+            };
+
+            $.post('/api/1.0/survey', request, function(data, status){
+              console.log("Survey Submitted");
+            });
+            
+          });
+        </script>
+  
+    </body>
+
+</html>
