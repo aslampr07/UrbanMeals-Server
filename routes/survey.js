@@ -17,7 +17,7 @@ module.exports = function(con){
         con.query(sql, function(err, result){
             if(err)
             {
-                throw err;
+                console.log(err);
             }
             res.send("Successful");
         })
