@@ -20,7 +20,7 @@ module.exports = function (con) {
             var sql = mysql.format('SELECT * FROM WebUser WHERE email = ?', [email]);
             con.query(sql, function (err, result) {
                 if (err) {
-                    throw err;
+                    console.log(err);
                 }
                 if (result.length > 0) {
                     var response = {
@@ -42,7 +42,7 @@ module.exports = function (con) {
                     var sql = mysql.format('INSERT INTO WebUser SET ?', [data]);
                     con.query(sql, function (err, result) {
                         if (err) {
-                            throw err;
+                            console.log(err)
                         }
                         var response = {
                             'status': 'success',
