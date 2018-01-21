@@ -16,7 +16,7 @@ module.exports = function (con) {
 
         var id = new Hashid("Launching Soon", 5);
 
-        if (validator.isEmail(email)) {
+        if (true) {
             var sql = mysql.format('SELECT * FROM WebUser WHERE email = ?', [email]);
             con.query(sql, function (err, result) {
                 if (err) {
