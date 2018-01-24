@@ -2,9 +2,9 @@ var mysql = require('mysql');
 var con = mysql.createConnection({
     //Change this IP to localhost after development
     //Use only localhost in production
-    host: "192.168.0.101",
-    user: "remote",
-    password: "urban@meals",
+    host: "localhost",
+    user: "root",
+    password: "search4Here.",
     database: "urbanmeals"
 });
 
