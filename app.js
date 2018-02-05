@@ -9,6 +9,7 @@ app.use(express.urlencoded({extended:true}));
 //WebPage
 
 app.use('/', express.static('public'));
+
 //removed the register and signup page.
 //app.use('/register', express.static('public/register'));
 //app.use('/survey', express.static('public/survey'));
