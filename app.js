@@ -17,8 +17,8 @@ app.use('/', express.static('public'));
 //Routes
 app.use('/api/1.0/restaurant', require('./routes/restaurant')(con));
 app.use('/api/1.0/items', require('./routes/items')(con));
-//Depracted items account.js and survey.js
 app.use('/api/1.0/account', require('./routes/account')(con));
-app.use('/api/1.0/survey', require('./routes/survey')(con));
 
+
+//app.use('/api/1.0/survey', require('./routes/survey')(con));
 app.listen(8000);
