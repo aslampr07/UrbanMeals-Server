@@ -3,6 +3,7 @@ var express = require('express');
 var mysql = require('mysql');
 var validator = require('validator');
 var Hashid = require('hashids');
+var bcrypt = require('bcrypt');
 
 module.exports = function (con) {
     var router = express.Router();
@@ -68,8 +69,65 @@ module.exports = function (con) {
         var email = String(req.body.email).trim();
         var phone = String(req.body.phone).trim();
         var password = String(req.body.password);
-        validateRegisterForm(firstName, lastName, email, phone, password, function(response){
-            res.send(response);
+        validateRegisterForm(firstName, lastName, email, phone, password, function (response) {
+            if (response.status == 'success') {
+                con.beginTransaction(function (err) {
+                    if (err) {
+                        throw err;
+                    }
+                    var sql = mysql.format("INSERT INTO User(creationTime) VALUES(NOW())");
+                    con.query(sql, function (err, result) {
+                        if (err) {
+                            return con.rollback(function () {
+                                throw err;
+                            });
+                        }
+                        var userId = result.insertId;
+                        var data = {
+                            'userID' : userId,
+                            'firstName' : firstName,
+                            'lastName' : lastName,
+                            'email' : email,
+                            'phone' : phone
+                        };
+                        var sql = mysql.format("INSERT INTO User_Profile SET ?");
+                        con.query(sql, data, function(err, result){
+                            if(err){
+                                return con.rollback(function(){
+                                    throw err;
+                                });
+                            }
+                            bcrypt.hash(password, 10, function(err, hash){
+                                if(err){
+                                    return con.rollback(function(){
+                                        throw err;
+                                    });
+                                }
+                                var sql = mysql.format('INSERT INTO User_Password VALUES(?, ?)',[userId, String(hash)]);
+                                con.query(sql, function(err, result){
+                                    if(err){
+                                        return con.rollback(function(){
+                                            throw err;
+                                        });
+                                    }
+                                    con.commit(function(err){
+                                        if(err){
+                                            return con.rollback(function(){
+                                                throw err;
+                                            });
+                                        }
+                                        delete response.type;
+                                        res.send(response);
+                                    });
+                                });
+                            });
+                        });
+                    });
+                })
+            }
+            else {
+                res.send(response);
+            }
         });
     });
 
@@ -81,16 +139,16 @@ module.exports = function (con) {
 
         if (password.length < 7) {
             response.status = 'error',
-            response.type.push(103);
+                response.type.push(103);
         }
         //Check if the firstname and lastname has alphabets only.
         if (!/^[A-z]+$/.test(firstName)) {
             response.status = 'error',
-            response.type.push(104);
+                response.type.push(104);
         }
         if (!/^[A-z]+$/.test(lastName)) {
             response.status = 'error',
-            response.type.push(105);
+                response.type.push(105);
         }
         if (/^\+91\d{10}$/.test(phone)) {
             var sql = mysql.format("SELECT * FROM User_Profile WHERE phone = ?", [phone]);
@@ -104,15 +162,15 @@ module.exports = function (con) {
                     con.query(sql, function (err, result) {
                         if (result.length > 0) {
                             response.status = 'error';
-                            response.type.push(106); 
+                            response.type.push(106);
                             cb(response);
                         }
-                        else{
-                           cb(response); 
+                        else {
+                            cb(response);
                         }
                     });
                 }
-                else{
+                else {
                     response.status = 'error';
                     response.type.push(107);
                     cb(response);
@@ -125,7 +183,6 @@ module.exports = function (con) {
             cb(response);
         }
     }
-
     return router;
 }
 
