@@ -62,7 +62,6 @@ module.exports = function (con) {
         });
     
         */
-
     router.post('/register', function (req, res) {
         var firstName = String(req.body.firstname).trim();
         var lastName = String(req.body.lastname).trim();
@@ -123,7 +122,7 @@ module.exports = function (con) {
                             });
                         });
                     });
-                })
+                });
             }
             else {
                 res.send(response);
@@ -185,4 +184,3 @@ module.exports = function (con) {
     }
     return router;
 }
-
