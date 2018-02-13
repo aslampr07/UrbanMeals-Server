@@ -9,7 +9,9 @@ app.use(express.urlencoded({extended:true}));
 //WebPage
 
 app.use('/', express.static('public'));
-app.use('/kochifoodie', express.static('public/blogger'));
+
+//TEMPERORLY OUT OF SERVICE.
+//app.use('/kochifoodie', express.static('public/blogger'));
 
 //removed the register and signup page.
 //app.use('/register', express.static('public/register'));
