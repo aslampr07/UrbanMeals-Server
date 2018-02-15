@@ -63,11 +63,13 @@ module.exports = function (con) {
     
         */
     router.post('/register', function (req, res) {
+        //The Query string values.
         var firstName = String(req.body.firstname).trim();
         var lastName = String(req.body.lastname).trim();
         var email = String(req.body.email).trim();
         var phone = String(req.body.phone).trim();
         var password = String(req.body.password);
+
         validateRegisterForm(firstName, lastName, email, phone, password, function (response) {
             if (response.status == 'success') {
                 con.beginTransaction(function (err) {
@@ -117,16 +119,23 @@ module.exports = function (con) {
                                         }
                                         delete response.type;
                                         res.send(response);
+                                        //Completed the commit.
                                     });
+                                    //Inserted the password.
                                 });
+                                //Password is hashed and salted.
                             });
+                            //Inserted the profile items to User_Profile table.
                         });
+                        //Registered the User into User table.
                     });
+                    //Transaction has beginned.    
                 });
             }
             else {
                 res.send(response);
             }
+            //The form has been validated.
         });
     });
 
