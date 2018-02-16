@@ -4,6 +4,7 @@ var mysql = require('mysql');
 var validator = require('validator');
 var Hashid = require('hashids');
 var bcrypt = require('bcrypt');
+var crypto = require('crypto');
 
 module.exports = function (con) {
     var router = express.Router();
@@ -85,41 +86,58 @@ module.exports = function (con) {
                         }
                         var userId = result.insertId;
                         var data = {
-                            'userID' : userId,
-                            'firstName' : firstName,
-                            'lastName' : lastName,
-                            'email' : email,
-                            'phone' : phone
+                            'userID': userId,
+                            'firstName': firstName,
+                            'lastName': lastName,
+                            'email': email,
+                            'phone': phone
                         };
                         var sql = mysql.format("INSERT INTO User_Profile SET ?");
-                        con.query(sql, data, function(err, result){
-                            if(err){
-                                return con.rollback(function(){
+                        con.query(sql, data, function (err, result) {
+                            if (err) {
+                                return con.rollback(function () {
                                     throw err;
                                 });
                             }
-                            bcrypt.hash(password, 10, function(err, hash){
-                                if(err){
-                                    return con.rollback(function(){
+                            bcrypt.hash(password, 10, function (err, hash) {
+                                if (err) {
+                                    return con.rollback(function () {
                                         throw err;
                                     });
                                 }
-                                var sql = mysql.format('INSERT INTO User_Password VALUES(?, ?)',[userId, String(hash)]);
-                                con.query(sql, function(err, result){
-                                    if(err){
-                                        return con.rollback(function(){
+                                var sql = mysql.format('INSERT INTO User_Password VALUES(?, ?)', [userId, String(hash)]);
+                                con.query(sql, function (err, result) {
+                                    if (err) {
+                                        return con.rollback(function () {
                                             throw err;
                                         });
                                     }
-                                    con.commit(function(err){
-                                        if(err){
-                                            return con.rollback(function(){
+                                    var token = crypto.randomBytes(16).toString('HEX')
+                                    var data = {
+                                        'userID': userId,
+                                        'token': token,
+                                        'pin': Math.floor(1000 + Math.random() * 9000),
+                                        'creationTime': new Date()
+                                    }
+                                    con.query('INSERT INTO SMS_OTP SET ?', data, function (err, result) {
+                                        if (err) {
+                                            con.rollback(function () {
                                                 throw err;
                                             });
                                         }
-                                        delete response.type;
-                                        res.send(response);
-                                        //Completed the commit.
+
+                                        con.commit(function (err) {
+                                            if (err) {
+                                                return con.rollback(function () {
+                                                    throw err;
+                                                });
+                                            }
+                                            delete response.type;
+                                            response.token = token;
+                                            res.send(response);
+                                            //Completed the commit.
+                                        });
+                                      //Inserted OTP into the database  
                                     });
                                     //Inserted the password.
                                 });
