@@ -137,7 +137,7 @@ module.exports = function (con) {
                                             res.send(response);
                                             //Completed the commit.
                                         });
-                                      //Inserted OTP into the database  
+                                        //Inserted OTP into the database  
                                     });
                                     //Inserted the password.
                                 });
@@ -154,6 +154,58 @@ module.exports = function (con) {
                 res.send(response);
             }
             //The form has been validated.
+        });
+    });
+
+
+    //Verfying the SMS OTP.
+    router.post('/verify/phone', function (req, res) {
+        var token = req.body.token;
+        var otp = parseInt(req.body.otp);
+
+        var sql = mysql.format("SELECT TIMESTAMPDIFF(MINUTE, creationTime, NOW()) as time, userID, pin from SMS_OTP WHERE token = ?", [token]);
+        con.query(sql, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            console.log("Hello");
+            if (result.length > 0) {
+                if (result[0].time > 10) {
+                    var response = {
+                        'status': 'error',
+                        'type': [109]
+                    }
+                    res.send(response);
+                }
+                else {
+                    if (result[0].pin == otp) {
+                        var response = {
+                            'status': 'success'
+                        }
+                        var sql = mysql.format("UPDATE User SET phoneVerified = 'Y' WHERE ID = ?", [result[0].userID]);
+                        con.query(sql, function (err) {
+                            if (err) {
+                                throw err;
+                            }
+                            res.send(response);
+                        });
+                    }
+                    else {
+                        var response = {
+                            'status': 'success',
+                            'type': [110]
+                        };
+                        res.send(response);
+                    }
+                }
+            }
+            else {
+                var response = {
+                    'status': 'error',
+                    'type': [108]
+                };
+                res.send(response);
+            }
         });
     });
 
@@ -209,5 +261,6 @@ module.exports = function (con) {
             cb(response);
         }
     }
+
     return router;
 }
