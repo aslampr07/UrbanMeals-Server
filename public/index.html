@@ -373,7 +373,7 @@
   <div class="block block-transparent block-fill-height block-angle block-app-mosdef" id="collab">
     <div class="block-bg-clip">
       <div class="block-bg">
-        <div class="block-bg-img block-bg-img-top" id="collabImage" style="background-image: url(/img/heart_um.jpg)">
+        <div class="block-bg-img block-bg-img-top" id="collabImage" style="background-image: url(/img/rawpixel-com-250087.jpg)">
         </div>
       </div>
     </div>
@@ -383,19 +383,18 @@
         <div class="row">
           <div class="col-md-6 offset-md-6">
             <h1 class="block-title mb-4">
-              <span class="text-ribbon text-ribbon-danger text-left" style="opacity: 0.5; color: white; font-weight: 300">
+              <span class="text-ribbon text-ribbon-danger text-left" style="opacity: 0.9; color: white; font-weight: 300">
                 <span>Want to Collab with us?</span>
               </span>
             </h1>
-
+            <form action="/api/1.0/account/collab" method="POST">
             <div class="text-ribbon-inputs-split">
-              <input type="text" class="h4 text-ribbon-input text-ribbon-danger" placeholder="Name" style="opacity: 0.5; ">
-              <input type="text" class="h4 text-ribbon-input text-ribbon-danger" placeholder="Email" style="opacity: 0.5;">
+              <input type="text" name="personname" class="h4 text-ribbon-input text-ribbon-danger" placeholder="Name" style="opacity: 0.9; ">
+              <input type="text" name="personemail" class="h4 text-ribbon-input text-ribbon-danger" placeholder="Email" style="opacity: 0.9;">
             </div>
-            <input type="text" class="h4 text-ribbon-input text-ribbon-input-half text-ribbon-danger" placeholder="Phone Number" style="opacity: 0.5;">
-            <button type="button" class="btn btn-square btn-danger btn-lg btn-block" style="opacity: 0.5; font-weight: bold">
-              Collab!
-            </button>
+            <input type="text" name="personphone" class="h4 text-ribbon-input text-ribbon-input-half text-ribbon-danger" placeholder="Phone Number" style="opacity: 0.9;">
+            <input type="submit" class="btn btn-square btn-danger btn-lg btn-block" style="opacity: 0.9; font-weight: bold" value="Collab!"/>
+            </form>
           </div>
         </div>
       </div>
@@ -465,9 +464,9 @@
               <h4>Contact Us</h4>
             </li>
             <li>info.urbanmeals@gmail.com</li>
-            <a class="fa fa-instagram mediaLogo" aria-hidden="true" href="#"> </a>
-            <a class="fa fa-twitter mediaLogo" aria-hidden="true" href="#"> </a>
-            <a class="fa fa-facebook mediaLogo" aria-hidden="true" href="#"> </a>
+            <a class="fa fa-instagram mediaLogo" aria-hidden="true" href="https://www.instagram.com/urbanmeals.in"> </a>
+            <a class="fa fa-twitter mediaLogo" aria-hidden="true" href="https://wwww.twitter.com/urbanmeals"> </a>
+            <a class="fa fa-facebook mediaLogo" aria-hidden="true" href="https://www.facebook.com/urbanmeals.in"> </a>
           </ul>
         </div>
 

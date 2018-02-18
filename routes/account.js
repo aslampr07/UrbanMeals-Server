@@ -262,8 +262,26 @@ module.exports = function (con) {
         }
     }
 
-    router.get('/', function(req, res){
-        res.redirect('/');
+    router.post('/collab', function(req, res){
+        console.log(req.body);
+        var name = req.body.personname;
+        var email = req.body.personemail;
+        var phone = req.body.personphone;
+
+        var data = {
+            'name' : name,
+            'email' : email,
+            'phone': phone
+        }
+
+        var sql = mysql.format('INSERT INTO Collab SET ?', [data]);
+        con.query(sql, function(err, result){
+            if(err){
+                throw err;
+            }
+            res.redirect('/');
+        });
+
     });
     return router;
 }
