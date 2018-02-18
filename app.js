@@ -9,7 +9,8 @@ app.use(express.urlencoded({extended:true}));
 //WebPage
 
 app.use('/', express.static('public'));
-app.use('/blogger', express.static('public/blogger'));
+app.use('/kochinfoodie', express.static('public/kochinfoodie'));
+app.use('/calicutfood', express.static('public/calicut'));
 
 //removed the register and signup page.
 //app.use('/register', express.static('public/register'));

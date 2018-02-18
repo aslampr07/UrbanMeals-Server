@@ -262,5 +262,8 @@ module.exports = function (con) {
         }
     }
 
+    router.get('/', function(req, res){
+        res.redirect('/');
+    });
     return router;
 }
