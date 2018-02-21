@@ -11,6 +11,8 @@ app.use(express.urlencoded({extended:true}));
 app.use('/', express.static('public'));
 app.use('/kochinfoodie', express.static('public/kochinfoodie'));
 app.use('/calicutfood', express.static('public/calicut'));
+app.use('/bitemeup', express.static('public/bitemeup'));
+app.use('/hungrykochite', express.static('public/hungrykochite'));
 
 //removed the register and signup page.
 //app.use('/register', express.static('public/register'));
