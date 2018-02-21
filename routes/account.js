@@ -279,7 +279,7 @@ module.exports = function (con) {
             if(err){
                 throw err;
             }
-            res.redirect('/');
+            res.redirect('/?redirect=true');
         });
 
     });

@@ -117,7 +117,14 @@
 
   gtag('config', 'UA-114285654-1');
 </script>
+<script>
+    var url = window.location.href.toString();
+    if(url.search("redirect=true") != -1){
+      var txt = "Thank you for collabing with us, We will contact you soon!"
+      alert(txt);
+    }
 
+</script>
 </head>
 
 
