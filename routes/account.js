@@ -9,6 +9,7 @@ var crypto = require('crypto');
 module.exports = function (con) {
     var router = express.Router();
     /*
+        //this request was used for registering the prime members.
         router.post('/register', function (req, res) {
             var name = req.body.name;
             var email = req.body.email;
@@ -168,9 +169,9 @@ module.exports = function (con) {
             if (err) {
                 throw err;
             }
-            console.log("Hello");
             if (result.length > 0) {
-                if (result[0].time > 10) {
+                //Change from 10000 to 10 minutes in production.
+                if (result[0].time > 1000) {
                     var response = {
                         'status': 'error',
                         'type': [109]
@@ -192,7 +193,7 @@ module.exports = function (con) {
                     }
                     else {
                         var response = {
-                            'status': 'success',
+                            'status': 'error',
                             'type': [110]
                         };
                         res.send(response);
@@ -262,8 +263,8 @@ module.exports = function (con) {
         }
     }
 
+    //For the webpage.
     router.post('/collab', function(req, res){
-        console.log(req.body);
         var name = req.body.personname;
         var email = req.body.personemail;
         var phone = req.body.personphone;
