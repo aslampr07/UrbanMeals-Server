@@ -113,7 +113,7 @@ module.exports = function (con) {
                                             throw err;
                                         });
                                     }
-                                    var token = crypto.randomBytes(16).toString('HEX')
+                                    var token = crypto.randomBytes(16).toString('HEX');
                                     var data = {
                                         'userID': userId,
                                         'token': token,
@@ -210,6 +210,85 @@ module.exports = function (con) {
         });
     });
 
+
+    router.post('/login', function (req, res) {
+        var login = String(req.body.login).trim();
+        var password = req.body.password;
+
+        var sql = mysql.format("SELECT userID FROM User_Profile WHERE email = ? OR phone = ?", [login, login]);
+        con.query(sql, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            if (result.length != 0) {
+                var userId = result[0].userID;
+                var sql = mysql.format("SELECT hash FROM User_Password WHERE userID = ?", [userId]);
+                con.query(sql, function (err, result) {
+                    var hash = result[0].hash;
+                    bcrypt.compare(password, hash, function (err, same) {
+                        if (same) {
+                            var token = crypto.randomBytes(16).toString('HEX');
+                            var data = {
+                                'userID': userId,
+                                'sessionToken': token,
+                                'creationTime': new Date()
+                            };
+                            var sql = mysql.format("INSERT INTO Login_Session SET ?", [data]);
+                            console.log(sql);
+                            con.query(sql, function (err, result) {
+                                if (err) {
+                                    throw err;
+                                }
+                                var response = {
+                                    'status': 'success',
+                                    'sessionID': token
+                                };
+                                res.send(response);
+                            });
+                        }
+                        else {
+                            var response = {
+                                'status' : 'error',
+                                'type' : [112]
+                            };
+                            res.send(response);
+                        }
+                    });
+                })
+            }
+            else {
+                var response = {
+                    'status': 'error',
+                    'type': [111]
+                }
+                res.send(response);
+            }
+        });
+    });
+
+    //For the webpage.
+    router.post('/collab', function (req, res) {
+        var name = req.body.personname;
+        var email = req.body.personemail;
+        var phone = req.body.personphone;
+
+        var data = {
+            'name': name,
+            'email': email,
+            'phone': phone
+        }
+
+        var sql = mysql.format('INSERT INTO Collab SET ?', [data]);
+        con.query(sql, function (err, result) {
+            if (err) {
+                throw err;
+            }
+            res.redirect('/?redirect=true');
+        });
+
+    });
+    return router;
+
     function validateRegisterForm(firstName, lastName, email, phone, password, cb) {
         var response = {
             'status': 'success',
@@ -263,26 +342,4 @@ module.exports = function (con) {
         }
     }
 
-    //For the webpage.
-    router.post('/collab', function(req, res){
-        var name = req.body.personname;
-        var email = req.body.personemail;
-        var phone = req.body.personphone;
-
-        var data = {
-            'name' : name,
-            'email' : email,
-            'phone': phone
-        }
-
-        var sql = mysql.format('INSERT INTO Collab SET ?', [data]);
-        con.query(sql, function(err, result){
-            if(err){
-                throw err;
-            }
-            res.redirect('/?redirect=true');
-        });
-
-    });
-    return router;
 }
