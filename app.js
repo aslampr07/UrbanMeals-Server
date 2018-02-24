@@ -6,13 +6,14 @@ var app = express();
 
 app.use(express.urlencoded({extended:true}));
 
-//WebPage
-
+//Websites
 app.use('/', express.static('public'));
 app.use('/kochinfoodie', express.static('public/kochinfoodie'));
 app.use('/calicutfood', express.static('public/calicut'));
 app.use('/bitemeup', express.static('public/bitemeup'));
 app.use('/hungrykochite', express.static('public/hungrykochite'));
+app.use('/annafoodieandherfeast', express.static('public/foodieandherfeast'));
+//  app.use(express.static('public/foodinmylens'));
 
 //removed the register and signup page.
 //app.use('/register', express.static('public/register'));
