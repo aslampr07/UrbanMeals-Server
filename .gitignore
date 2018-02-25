@@ -57,5 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
+#public directory for Websites.
+public/
+
 #visual studio code file
 .vscode/
