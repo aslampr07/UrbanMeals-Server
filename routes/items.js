@@ -40,7 +40,6 @@ module.exports = function(con){
                     if(err){
                         throw err;
                     }
-
                     var response = [];
                     for(var i in result){
                         var index = CheckIdExist(response, result[i].ID);
