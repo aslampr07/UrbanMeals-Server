@@ -1,3 +1,4 @@
+"use strict";
 var express = require('express');
 var mysql = require('mysql');
 var moment = require('moment');
@@ -21,7 +22,7 @@ module.exports = function (con) {
                             throw err;
                         var result = [];
                         var now = moment();
-                        for (i in rows) {
+                        for (var i in rows) {
                             var item = {};
                             var a = moment(rows[i].openingTime, 'hh:mm:ss');
                             var b = moment(rows[i].closingTime, 'hh:mm:ss');
@@ -43,6 +44,12 @@ module.exports = function (con) {
                         };
                         res.send(response);
                     });
+
+                    var sql = mysql.format("INSERT INTO User_Locations VALUES(?, ?, ?, now())", [status.id, latitude, longitude]);
+
+                    con.query(sql, function(err){
+                        console.log("User Location Entered");
+                    })
                 }
                 else if(status.status == 'error'){
                     res.send(status);
