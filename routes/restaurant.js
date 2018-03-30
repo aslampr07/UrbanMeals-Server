@@ -2,9 +2,10 @@
 var express = require('express');
 var mysql = require('mysql');
 var moment = require('moment');
-var test = require('../tools/verification');
+var tokenVerify = require('../tools/verification');
 module.exports = function (con) {
     var router = express.Router();
+
     router.get('/nearby', function (req, res) {
         if (req.query.lat && req.query.lon && req.query.count) {
             //Validation of the queries have not been done. 
@@ -13,10 +14,10 @@ module.exports = function (con) {
             var count = parseInt(req.query.count);
             var token = req.query.token;
 
-            test.verify(con, token, function (status) {
+            tokenVerify.verify(con, token, function (status) {
                 if (status.status == 'success') {
                     var sql = mysql.format("SELECT name, code, calculate_distance(latitude, longitude, ?, ?)" +
-                        " AS distance, type, openingTime,  closingTime FROM Hotel ORDER BY distance LIMIT ?", [latitude, longitude, count]);
+                        " AS distance, type, openingTime, closingTime FROM Hotel ORDER BY distance LIMIT ?", [latitude, longitude, count]);
                     con.query(sql, function (err, rows) {
                         if (err)
                             throw err;
@@ -58,5 +59,154 @@ module.exports = function (con) {
             //Retrieves the items
         }
     });
+
+    router.post('/rating', function(req, res){
+        var token = String(req.query.token);
+        var hotelCode = String(req.body.hotelcode);
+        var rating = Number(req.body.rating);
+
+        tokenVerify.verify(con, token, function(check){
+            if(check.status == 'success'){
+                var userID = check.id;
+                var sql = mysql.format("SELECT ID FROM Hotel WHERE code = ?", [hotelCode]);
+                con.query(sql, function(err, rows){
+                    if(err){
+                        throw err;
+                    }
+                    if(rows.length > 0){
+                        var hotelID = rows[0].ID;
+
+                        var sql = mysql.format("INSERT INTO Hotel_Rating(userID, hotelID, rating, creationTime) VALUES (?, ?, ?, NOW()) ON DUPLICATE KEY UPDATE rating = ?, creationTime = NOW()", [userID, hotelID, rating, rating]);
+                        con.query(sql, function(err, rows){
+                            if(err){
+                                throw err;
+                            }
+                            var response = {
+                                'status' : 'success'
+                            }
+                            res.json(response);
+                        })
+                    }
+                    else{
+                        var response = {
+                            'status' : 'error',
+                            'type' : [115]
+                        }
+                        res.json(response);
+                    }
+                });
+
+            }
+            else{
+                res.json(check);
+            }
+        });
+    });
+
+    router.get('/rating', function(req, res){
+        var hotelCode = String(req.query.hotelcode);
+        
+        var sql = mysql.format("SELECT ID FROM Hotel WHERE code = ?", [hotelCode]);
+        con.query(sql, function(err, rows){
+            if(err){
+                throw err;
+            }
+            if(rows.length > 0){
+                var hotelID = rows[0].ID;
+                var sql = mysql.format("SELECT AVG(rating) as rating FROM Hotel_Rating WHERE hotelID = ?", [hotelID]);
+                con.query(sql, function(err, rows){
+                    if(err){
+                        throw err;
+                    }
+                    if(rows[0].rating == null){
+                        var response = {
+                            'status' : 'success',
+                            'rating' : 0.0
+                        }
+                        res.json(response);
+                    }
+                    else{
+                        var response = {
+                            'status' : 'success',
+                            'rating' : rows[0].rating.toFixed(2)
+                        }
+                        res.json(response);
+                    }
+                });
+            }
+            else{
+                var response = {
+                    'status' : 'error',
+                    'type' : [115]
+                }
+                res.json(response);
+            }
+        })
+    });
+
+    router.get('/profile', function(req, res){
+        var hotelCode = String(req.query.hotelcode);
+        var token = String(req.query.token);
+
+        tokenVerify.verify(con, token, function(check){
+            if(check.status == 'success'){
+                var sql = mysql.format("SELECT ID FROM Hotel WHERE code = ?", [hotelCode]);
+                con.query(sql, function(err, rows){
+                    if(err){
+                        throw err;
+                    }
+                    if(rows.length > 0){
+                        var hotelID = rows[0].ID;
+                        var sql = mysql.format("SELECT name, place, openingTime, closingTime, phone, latitude, longitude, street, city, pincode, body from Hotel, Hotel_Profile p, Hotel_Description d WHERE ID = ? AND ID = p.hotelID AND ID = d.hotelID", [hotelID]);
+                        con.query(sql, function(err, rows){
+                            if(err){
+                                throw err;
+                            }
+                            var result = {
+                                'name' : rows[0].name,
+                                'place' : rows[0].place,
+                                'phone' : rows[0].phone,
+                                'latitude' : rows[0].latitude,
+                                'longitude' : rows[0].longitude,
+                                'description' : rows[0].body
+                            };
+                            result.isOpened = isTimeBetween(rows[0].openingTime, rows[0].closingTime);
+                            result.address = rows[0].street +", "+rows[0].city+"\nPIN-"+rows[0].pincode;
+                            result.openingTime = moment(rows[0].openingTime, "hh:mm:ss").format("h:mm A");
+                            result.closingTime = moment(rows[0].closingTime, "hh:mm:ss").format("h:mm A");                            
+                            var response = {
+                                'status' : 'success',
+                                'result' : result
+                            };
+                            res.json(response);
+                        });
+                    }
+                    else{
+                        var response = {
+                            'status' : 'error',
+                            'type' : [115]
+                        };
+                        res.json(response);
+                    }
+                });
+            }
+            else{
+                res.json(check);
+            }
+        })
+    });
+
+    function isTimeBetween(start, end){
+        var now = moment();
+        var a = moment(start, 'hh:mm:ss');
+        var b = moment(end, 'hh:mm:ss');
+        if(now.isBetween(a, b)){
+            return true
+        }
+        else{
+            return false;
+        }
+    }
+
     return router;
 }

@@ -3,7 +3,6 @@ var mysql = require('mysql');
 module.exports = {
     verify : function(con, token, callback){
         var response = {};
-        console.log(token)
         var sql = mysql.format('SELECT u.ID, phoneVerified as verified FROM User u, Login_Session WHERE userID = u.ID AND sessionToken = ?', [token]);
         con.query(sql, function(err, rows){
             if(err){
