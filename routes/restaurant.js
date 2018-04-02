@@ -18,7 +18,6 @@ module.exports = function (con) {
                 if (status.status == 'success') {
                     var sql = mysql.format("SELECT name, code, calculate_distance(latitude, longitude, ?, ?)" +
                         " AS distance, type, openingTime, closingTime, (SELECT AVG(rating) FROM Hotel_Rating WHERE hotelID = h.ID) as rating FROM Hotel h ORDER BY distance LIMIT ?", [latitude, longitude, count]);
-                        console.log(sql);
                     con.query(sql, function (err, rows) {
                         if (err)
                             throw err;
