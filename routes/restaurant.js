@@ -17,7 +17,8 @@ module.exports = function (con) {
             tokenVerify.verify(con, token, function (status) {
                 if (status.status == 'success') {
                     var sql = mysql.format("SELECT name, code, calculate_distance(latitude, longitude, ?, ?)" +
-                        " AS distance, type, openingTime, closingTime FROM Hotel ORDER BY distance LIMIT ?", [latitude, longitude, count]);
+                        " AS distance, type, openingTime, closingTime, (SELECT AVG(rating) FROM Hotel_Rating WHERE hotelID = h.ID) as rating FROM Hotel h ORDER BY distance LIMIT ?", [latitude, longitude, count]);
+                        console.log(sql);
                     con.query(sql, function (err, rows) {
                         if (err)
                             throw err;
@@ -31,6 +32,15 @@ module.exports = function (con) {
                             item.code = rows[i].code;
                             item.distance = rows[i].distance;
                             item.type = rows[i].type;
+
+                            //If the rating is null, then set it to zero.
+                            if(!rows[i].rating){
+                                item.rating = 0;
+                            }
+                            else{
+                                item.rating =rows[i].rating.toFixed(2);
+                            }
+
                             if (now.isBetween(a, b)) {
                                 item.opened = true;
                             }

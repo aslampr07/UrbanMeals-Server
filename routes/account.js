@@ -71,6 +71,8 @@ module.exports = function (con) {
         var email = String(req.body.email).trim();
         var phone = String(req.body.phone).trim();
         var password = String(req.body.password);
+        console.log(phone);
+
 
         validateRegisterForm(firstName, lastName, email, phone, password, function (response) {
             if (response.status == 'success') {
