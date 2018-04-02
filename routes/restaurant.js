@@ -53,7 +53,7 @@ module.exports = function (con) {
                             'status': 'success',
                             'result': result
                         };
-                        res.send(response);
+                        res.json(response);
                     });
 
                     var sql = mysql.format("INSERT INTO User_Locations VALUES(?, ?, ?, now())", [status.id, latitude, longitude]);
