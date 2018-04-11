@@ -216,6 +216,5 @@ module.exports = function (con) {
             return false;
         }
     }
-
     return router;
 }
