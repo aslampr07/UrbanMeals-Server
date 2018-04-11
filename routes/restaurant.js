@@ -16,8 +16,13 @@ module.exports = function (con) {
 
             tokenVerify.verify(con, token, function (status) {
                 if (status.status == 'success') {
+                    /* The count limit of the sql has been removed.
+                        Turn it back on after developement completed.
+                        
                     var sql = mysql.format("SELECT name, code, calculate_distance(latitude, longitude, ?, ?)" +
-                        " AS distance, type, openingTime, closingTime, (SELECT AVG(rating) FROM Hotel_Rating WHERE hotelID = h.ID) as rating FROM Hotel h ORDER BY distance LIMIT ?", [latitude, longitude, count]);
+                        " AS distance, type, openingTime, closingTime, (SELECT AVG(rating) FROM Hotel_Rating WHERE hotelID = h.ID) as rating FROM Hotel h ORDER BY distance LIMIT ?", [latitude, longitude, count]);*/
+                        var sql = mysql.format("SELECT name, code, calculate_distance(latitude, longitude, ?, ?)" +
+                        " AS distance, type, openingTime, closingTime, (SELECT AVG(rating) FROM Hotel_Rating WHERE hotelID = h.ID) as rating FROM Hotel h ORDER BY distance", [latitude, longitude]);
                     con.query(sql, function (err, rows) {
                         if (err)
                             throw err;
