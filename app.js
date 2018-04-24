@@ -1,7 +1,6 @@
 "use strict";
 var express = require('express');
 var con = require('./config/db');
-var request = require('request');
 
 var app = express();
 

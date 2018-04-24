@@ -5,6 +5,7 @@ var validator = require('validator');
 var Hashid = require('hashids');
 var bcrypt = require('bcrypt');
 var crypto = require('crypto');
+var request = require('request');
 
 module.exports = function (con) {
     var router = express.Router();
