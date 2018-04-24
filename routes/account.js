@@ -116,10 +116,11 @@ module.exports = function (con) {
                                         });
                                     }
                                     var token = crypto.randomBytes(16).toString('HEX');
+                                    var pin = Math.floor(1000 + Math.random() * 9000);
                                     var data = {
                                         'userID': userId,
                                         'token': token,
-                                        'pin': Math.floor(1000 + Math.random() * 9000),
+                                        'pin': pin,
                                         'creationTime': new Date()
                                     }
                                     con.query('INSERT INTO SMS_OTP SET ?', data, function (err, result) {
@@ -138,6 +139,10 @@ module.exports = function (con) {
                                             delete response.type;
                                             response.token = token;
                                             res.send(response);
+                                            var url = `http://sapteleservices.com/SMS_API/sendsms.php?username=URBAN07&password=urban@meals&mobile=${phone}&sendername=UMTEAM&message=${pin}+is+your+phone+verification+pin.+Welcome+to+Urban+Meals.&routetype=1`;
+                                            request.get(url, function (err, response, body) {
+                                                console.log(body);
+                                            });
                                             //Completed the commit.
                                         });
                                         //Inserted OTP into the database  
@@ -250,8 +255,8 @@ module.exports = function (con) {
                         }
                         else {
                             var response = {
-                                'status' : 'error',
-                                'type' : [112]
+                                'status': 'error',
+                                'type': [112]
                             };
                             res.send(response);
                         }
