@@ -140,6 +140,7 @@ module.exports = function (con) {
                                             response.token = token;
                                             res.send(response);
                                             var url = `http://sapteleservices.com/SMS_API/sendsms.php?username=URBAN07&password=urban@meals&mobile=${phone}&sendername=UMTEAM&message=${pin}+is+your+phone+verification+pin.+Welcome+to+Urban+Meals.&routetype=1`;
+                                            console.log(url);
                                             request.get(url, function (err, response, body) {
                                                 console.log(body);
                                             });
