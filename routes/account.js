@@ -72,7 +72,6 @@ module.exports = function (con) {
         var email = String(req.body.email).trim();
         var phone = String(req.body.phone).trim();
         var password = String(req.body.password);
-        console.log(phone);
 
 
         validateRegisterForm(firstName, lastName, email, phone, password, function (response) {
@@ -141,7 +140,6 @@ module.exports = function (con) {
                                             response.token = token;
                                             res.send(response);
                                             var url = `http://sapteleservices.com/SMS_API/sendsms.php?username=URBAN07&password=urban@meals&mobile=${phone}&sendername=UMTEAM&message=${pin}+is+your+phone+verification+pin.+Welcome+to+Urban+Meals.&routetype=1`;
-                                            console.log(url);
                                             request.get(url, function (err, response, body) {
                                                 console.log(body);
                                             });
@@ -243,7 +241,6 @@ module.exports = function (con) {
                                 'creationTime': new Date()
                             };
                             var sql = mysql.format("INSERT INTO Login_Session SET ?", [data]);
-                            console.log(sql);
                             con.query(sql, function (err, result) {
                                 if (err) {
                                     throw err;
