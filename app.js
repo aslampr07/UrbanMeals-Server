@@ -1,10 +1,12 @@
 "use strict";
 var express = require('express');
 var con = require('./config/db');
+var fileupload = require('express-fileupload')
 
 var app = express();
 
 app.use(express.urlencoded({extended:true}));
+app.use(fileupload());
 
 //Websites
 app.use('/', express.static('public'));

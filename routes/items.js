@@ -4,12 +4,14 @@
 var express = require('express');
 var mysql = require('mysql');
 var hashids = require("hashids");
+var jimp = require("jimp");
 var tokenVerify = require("../tools/verification");
 
 
 module.exports = function (con) {
     var router = express.Router();
     var hash = new hashids("items@urbanmeals", 11);
+    var imagehash = new hashids("images@urbanmeals", 11, "abcdefghijklmnopqrstuvwxyz123456789_-")
 
     //To get the categories that displays below the Digital Menu.
     router.get("/digitalmenu/categories", function (req, res) {
@@ -235,8 +237,8 @@ module.exports = function (con) {
                     }
                     else {
                         var response = {
-                            "status" : "error",
-                            "type" : [116]
+                            "status": "error",
+                            "type": [116]
                         };
                         res.send(response)
                     }
@@ -247,5 +249,120 @@ module.exports = function (con) {
             }
         });
     });
+
+    router.post("/photo/upload", function (req, res) {
+        var token = req.query.token;
+        var itemcode = req.query.itemcode;
+        var pic = req.files.image;
+
+        tokenVerify.verify(con, token, function (report) {
+            if (report.status == "success") {
+                var userID = report.id;
+                var itemID = hash.decode(itemcode)[0];
+                var sql = mysql.format("SELECT * FROM Item WHERE ID = ?", [itemID]);
+                con.query(sql, function (err, rows) {
+                    console.log(pic);
+                    if (rows.length > 0) {
+                        if (!pic) {
+                            res.send("No file uploaded");
+                        }
+                        else {
+                            console.log("Image has been uploaded");
+                            if (pic.mimetype == "image/png" || pic.mimetype == "image/jpeg") {
+                                var buffer = pic.data;
+                                jimp.read(buffer, function (err, img) {
+                                    if (err)
+                                        throw err;
+
+                                    var filename = String(Math.floor(100000000000 + Math.random() * 900000000000)) + Math.floor(100000000000 + Math.random() * 900000000000) + ".jpg"
+                                    var height = img.bitmap.height;
+                                    var width = img.bitmap.width;
+
+                                    //When height or width exceeds 2048.
+                                    if (height > 2048 || width > 2048) {
+                                        //When height greater than width
+                                        if (height > width) {
+                                            height = 2048;
+                                            width = jimp.AUTO;
+                                        }
+                                        else {
+                                            width = 2048
+                                            height = jimp.AUTO;
+                                        }
+                                    }
+                                    img.resize(height, width).quality(50).write(`public/assets/items/${filename}`, function () {
+                                        con.beginTransaction(function (err) {
+                                            if (err) {
+                                                throw err;
+                                            }
+                                            var data = {
+                                                "userID": userID,
+                                                "itemID": itemID,
+                                                "imageURL": `/assets/items/${filename}`,
+                                                "creationTime": new Date()
+                                            }
+                                            var sql = mysql.format("INSERT INTO Item_Pictures SET ?", data)
+                                            con.query(sql, function (err, rows) {
+                                                if (err) {
+                                                    return con.rollback(function () {
+                                                        throw err;
+                                                    })
+                                                }
+                                                var imageID = rows.insertId;
+                                                var imageCode = imagehash.encode(imageID);
+                                                var sql = mysql.format("UPDATE Item_Pictures SET code = ? WHERE ID = ?", [imageCode, imageID]);
+                                                con.query(sql, function (err) {
+                                                    if (err) {
+                                                        return con.rollback(function () {
+                                                            throw err;
+                                                        });
+                                                    }
+                                                    con.commit(function (err) {
+                                                        if (err) {
+                                                            con.rollback(function () {
+                                                                throw err;
+                                                            })
+                                                        }
+                                                        var response = {
+                                                            "status" : "success",
+                                                            "imageID" : imageCode
+                                                        }
+                                                        res.json(response);
+                                                    })
+                                                })
+                                            })
+                                        });
+                                    });
+                                });
+                            }
+                            else {
+                                //Uploaded file is not an image.
+                                var response = {
+                                    'status' : 'error',
+                                    'type' : [117]
+                                }
+                                res.json(response);
+                            }
+                        }
+                    }
+                    else {
+                        var response = {
+                            'status': "error",
+                            "type": [116]
+                        };
+                        res.json(response);
+                    }
+                });
+
+
+            }
+            else {
+                res.json(report);
+            }
+
+        });
+
+    });
+
     return router;
 }
