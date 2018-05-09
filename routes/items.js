@@ -268,7 +268,10 @@ module.exports = function (con) {
                         }
                         else {
                             console.log("Image has been uploaded");
-                            if (pic.mimetype == "image/png" || pic.mimetype == "image/jpeg") {
+                            console.log(pic.mimetype);
+                            if (pic.mimetype == "image/png" || pic.mimetype == "image/jpeg" || pic.mimetype == "image/jpg") {
+                            //if (true) {
+                                
                                 var buffer = pic.data;
                                 jimp.read(buffer, function (err, img) {
                                     if (err)
