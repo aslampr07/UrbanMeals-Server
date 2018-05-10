@@ -401,5 +401,44 @@ module.exports = function (con) {
 
     });
 
+    router.get("/thumbnails", function(req, res){
+        var token = String(req.query.token);
+        var itemCode = String(req.query.itemcode)
+        tokenVerify.verify(con, token, function(report){
+            if(report.status == "success"){
+                var itemID = hash.decode(itemCode)[0];
+                var sql = mysql.format("SELECT * FROM Item where ID = ?", [itemID]);
+                con.query(sql, function(err, rows){
+                    if(err){
+                        throw err;
+                    }
+                    if(rows.length > 0){
+                        let sql = mysql.format("SELECT code, thumbnailURL as url FROM Item_Pictures WHERE itemID = ?",[itemID]);
+                        con.query(sql, function(err, rows){
+                            if(err){
+                                throw err;
+                            }
+                            let response = {
+                                "status" : "success",
+                                "result" : rows
+                            }
+                            res.send(response);
+                        })
+                    }
+                    else{
+                        let response = {
+                            "status" : "error",
+                            "type" : [116]
+                        }
+                        res.json(response);
+                    }
+                });
+            }
+            else{
+                res.json(report);
+            }
+        });
+    });
+
     return router;
 }
