@@ -11,7 +11,7 @@ var tokenVerify = require("../tools/verification");
 module.exports = function (con) {
     var router = express.Router();
     var hash = new hashids("items@urbanmeals", 11);
-    var imagehash = new hashids("images@urbanmeals", 11, "abcdefghijklmnopqrstuvwxyz123456789_-")
+    var imagehash = new hashids("images@urbanmeals", 11, "abcdefghijklmnopqrstuvwxyz1234567890_-")
 
     //To get the categories that displays below the Digital Menu.
     router.get("/digitalmenu/categories", function (req, res) {
@@ -439,6 +439,53 @@ module.exports = function (con) {
             }
         });
     });
+
+    router.get("/reviews/:who", function(req, res){
+        var who = req.params.who;
+        var token = req.query.token;
+        var itemCode = req.query.itemcode;
+
+        tokenVerify.verify(con, token, function(report){
+            if(report.status == "success"){
+                let itemID = hash.decode(itemCode)[0];
+                let sql = mysql.format("SELECT * FROM Item WHERE ID = ?", [itemID]);
+                con.query(sql, function(err, rows){
+                    if(err){
+                        throw err;
+                    }
+                    if(rows.length > 0){
+                        let blogger;
+                        if(who == "user"){
+                            blogger = 'N';
+                        }
+                        if(who == "critic"){
+                            blogger = 'Y';
+                        }
+                        let sql = mysql.format("SELECT firstName as firstname, lastName as lastname, taste, presentation, quantity, body "
+                                                    +"FROM Item_Review re, Item_Rating ra, User u, User_Profile up "
+                                                    +"WHERE re.ratingID = ra.ID AND ra.userID = u.ID AND u.ID = up.userID AND ra.itemID = ? "
+                                                    +"AND u.blogger = ? ORDER BY ra.creationTime DESC", [itemID, blogger]);
+                        con.query(sql, function(err, rows){
+                            if(err){
+                                throw err;
+                            }
+                            res.json(rows);
+                        })
+                    }
+                    else{
+                        let response = {
+                            "status" : "error",
+                            "type" : [116]
+                        };
+                        res.json(response);
+                    }
+                });
+            }
+            else{
+                res.json(respone);
+            }
+        })
+    })
 
     return router;
 }
