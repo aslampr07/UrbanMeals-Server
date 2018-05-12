@@ -469,7 +469,11 @@ module.exports = function (con) {
                             if(err){
                                 throw err;
                             }
-                            res.json(rows);
+                            let response = {
+                                "status" : "success",
+                                "result" : rows
+                            }
+                            res.json(response);
                         })
                     }
                     else{
