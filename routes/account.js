@@ -306,11 +306,11 @@ module.exports = function (con) {
                 response.type.push(103);
         }
         //Check if the firstname and lastname has alphabets only.
-        if (!/^[A-z]+$/.test(firstName)) {
+        if (!/^[A-z ]+$/.test(firstName)) {
             response.status = 'error',
                 response.type.push(104);
         }
-        if (!/^[A-z]+$/.test(lastName)) {
+        if (!/^[A-z ]+$/.test(lastName)) {
             response.status = 'error',
                 response.type.push(105);
         }
