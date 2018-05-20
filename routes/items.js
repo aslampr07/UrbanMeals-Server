@@ -113,7 +113,7 @@ module.exports = function (con) {
         }
     });
 
-    //To get information about a specific meal.
+    //To get information about a specific meal. (Meal Profile)
     router.get("/meal", function (req, res) {
         var token = String(req.query.token);
         var itemCode = String(req.query.itemcode);
