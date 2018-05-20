@@ -11,7 +11,7 @@ module.exports = function(con){
         
         tokenVerify.verify(con, token, function(report){
             if(report.status == "success"){
-                let sql = mysql.format("SELECT firstName, lastName FROM User_Profile WHERE userID = ?", [report.id]);
+                let sql = mysql.format("SELECT firstName, lastName, blogger FROM User_Profile, User WHERE userID = ID AND userID = ?", [report.id]);
                 con.query(sql, function(err, rows){
                     if(err){
                         throw err;
