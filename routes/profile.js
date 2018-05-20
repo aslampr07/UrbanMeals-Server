@@ -23,7 +23,17 @@ module.exports = function(con){
                             throw err;
                         }
                         response.count = rows[0];
-                        res.json(response);
+                        let sql = mysql.format("SELECT imageURL FROM Item_Pictures WHERE userID = ?", [report.id]);
+                        con.query(sql, function(err, rows){
+                            if(err){
+                                throw err;
+                            }
+                            console.log(rows);
+                            response.images = rows.map(function(obj){
+                                return obj.imageURL;
+                            })
+                            res.json(response);
+                        });
                     });
                 });
             }
