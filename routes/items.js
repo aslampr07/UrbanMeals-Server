@@ -164,6 +164,7 @@ module.exports = function (con) {
     });
 
 
+    //For posting the rating about an item.
     router.post("/rate", function (req, res) {
         var token = String(req.query.token);
         var itemCode = String(req.body.itemcode);
@@ -213,6 +214,7 @@ module.exports = function (con) {
         });
     });
 
+    //To get the rating about an item.
     router.get("/rating", function (req, res) {
         var token = String(req.query.token);
         var itemCode = String(req.query.itemcode);
@@ -249,6 +251,7 @@ module.exports = function (con) {
         });
     });
 
+    //To upload photo about an item.
     router.post("/photo/upload", function (req, res) {
         var token = req.query.token;
         var itemcode = req.query.itemcode;
@@ -401,6 +404,7 @@ module.exports = function (con) {
 
     });
 
+    //This return the all the thumbnails about an item.
     router.get("/thumbnails", function(req, res){
         var token = String(req.query.token);
         var itemCode = String(req.query.itemcode)
@@ -440,6 +444,7 @@ module.exports = function (con) {
         });
     });
 
+    //This return the reviews and rating about a specific meal, the 'who' = 'critc'|'user'
     router.get("/reviews/:who", function(req, res){
         var who = req.params.who;
         var token = req.query.token;
@@ -489,7 +494,49 @@ module.exports = function (con) {
                 res.json(respone);
             }
         })
-    })
+    });
+
+    //This return the suggested meal in the nearby places.
+    router.get("/suggestion" ,function(req, res){
+        let token = String(req.query.token);
+        let latitude = Number(req.query.lat);
+        let longitude = Number(req.query.lon);
+
+        tokenVerify.verify(con, token, function(report){
+            if(report.status = "success"){
+                let sql = mysql.format("SELECT p.ID, p.name AS place, i.name AS item, i.code, min(pr.amount) AS price, h.name AS hotel FROM Item_Suggestions s, Places p, Item i, Price pr, Hotel h WHERE placeID = p.ID AND s.itemID = i.ID AND pr.itemID = i.ID AND i.hotelID = h.ID GROUP BY s.itemID ORDER BY calculate_distance(p.latitude,p.longitude, ?, ?)", [latitude, longitude]);
+                con.query(sql, function(err, rows){
+                    let placeID = -1;
+                    let mainItems = [];
+                    for(let item in rows){
+                        let singleItem = {};
+                        singleItem.name = rows[item].item;
+                        singleItem.code = rows[item].code;
+                        singleItem.price = rows[item].price;
+                        singleItem.hotel = rows[item].hotel;
+                        if(placeID == rows[item].ID){
+                            mainItem.item.push(singleItem);
+                        }
+                        else{
+                            placeID = rows[item].ID;
+                            var mainItem = {};
+                            mainItem.place = rows[item].place;
+                            mainItem.item = [singleItem]
+                            mainItems.push(mainItem);
+                        }
+                    }
+                    let response = {
+                        "status" : "success",
+                        "result" : mainItems
+                    }
+                    res.json(response);
+                });
+            }
+            else{
+                res.json(report);
+            }
+        });
+    });
 
     return router;
 }

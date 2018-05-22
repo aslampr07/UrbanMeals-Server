@@ -29,6 +29,7 @@ module.exports = function(con){
                                 throw err;
                             }
                             console.log(rows);
+                            //Return the image url as string array, not as object array.
                             response.images = rows.map(function(obj){
                                 return obj.imageURL;
                             })
