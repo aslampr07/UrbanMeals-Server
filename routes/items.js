@@ -17,15 +17,15 @@ module.exports = function (con) {
     router.get("/digitalmenu/categories", function (req, res) {
         var hotelCode = req.query.hotelcode;
 
-        var sql = mysql.format("SELECT * FROM Hotel WHERE code = ?", [hotelCode]);
+        var sql = mysql.format("SELECT ID FROM Hotel WHERE code = ?", [hotelCode]);
         con.query(sql, function (err, rows) {
             if (err) {
                 throw err;
             }
             if (rows.length > 0) {
-                var sql = mysql.format("SELECT ID, name, image as imageURL from Menu_Categories, Category " +
-                    "WHERE hotelID =" +
-                    "(SELECT ID FROM Hotel WHERE code = ? ) AND categoryID = ID", [hotelCode]);
+                let hotelID = rows[0].ID;
+                var sql = mysql.format("SELECT ID, name, image as imageURL, code from Menu_Categories, Category " +
+                    "WHERE hotelID = ? AND categoryID = ID", [hotelID]);
                 con.query(sql, function (err, rows) {
                     if (err) {
                         throw err;

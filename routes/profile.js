@@ -17,6 +17,7 @@ module.exports = function(con){
                         throw err;
                     }
                     let response = rows[0];
+                    //Getting the count of rating and photos
                     let sql = mysql.format("SELECT (SELECT COUNT(*) FROM Item_Review, Item_Rating WHERE ratingID = ID and userID = ?) as reviews, (SELECT COUNT(*) FROM Item_Pictures WHERE userID = ?) as photos FROM DUAL", [report.id, report.id]);
                     con.query(sql,function(err, rows){
                         if(err){
