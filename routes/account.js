@@ -65,6 +65,7 @@ module.exports = function (con) {
         });
     
         */
+
     router.post('/register', function (req, res) {
         //The Query string values.
         var firstName = String(req.body.firstname).trim();
@@ -222,7 +223,7 @@ module.exports = function (con) {
         var login = String(req.body.login).trim();
         var password = req.body.password;
 
-        var sql = mysql.format("SELECT userID FROM User_Profile WHERE email = ? OR phone = ?", [login, login]);
+        var sql = mysql.format("SELECT userID FROM User_Profile WHERE email = ? OR phone = ? OR phone = CONCAT('+91', ? )", [login, login, login]);
         con.query(sql, function (err, result) {
             if (err) {
                 throw err;

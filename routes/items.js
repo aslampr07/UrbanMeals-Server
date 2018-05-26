@@ -62,7 +62,7 @@ module.exports = function (con) {
                     throw err;
                 }
                 if (rows.length > 0) {
-                    var sql = mysql.format("SELECT name, code, min(p.amount) as price, (SELECT avg((taste+presentation+quantity)/3) as rating FROM Item_Rating WHERE itemID = i.ID) as rating FROM Item i, Price p WHERE itemID = i.ID and i.hotelId = ? GROUP BY itemID", [rows[0].ID]);
+                    var sql = mysql.format("SELECT name, code, min(p.amount) as price, (SELECT avg((taste+presentation+quantity)/3) FROM Item_Rating WHERE itemID = i.ID) as rating FROM Item i, Price p WHERE itemID = i.ID and i.hotelId = ? GROUP BY itemID", [rows[0].ID]);
                     con.query(sql, function (err, result) {
                         if (err) {
                             throw err;
@@ -93,7 +93,7 @@ module.exports = function (con) {
                     throw err;
                 }
                 if (rows.length > 0) {
-                    var sql = mysql.format("SELECT name, code, MIN(amount) as price, (SELECT avg((taste+presentation+quantity)/3) as rating FROM Item_Rating WHERE itemID = i.ID) as rating FROM Item i, Price p WHERE i.ID in (SELECT cm.ItemID FROM Category_Map cm WHERE cm.CategoryID = ?) AND i.ID = p.itemID and i.hotelID = ? GROUP BY i.ID", [categoryID, rows[0].ID]);
+                    var sql = mysql.format("SELECT name, code, MIN(amount) as price, (SELECT avg((taste+presentation+quantity)/3) FROM Item_Rating WHERE itemID = i.ID) as rating FROM Item i, Price p WHERE i.ID in (SELECT cm.ItemID FROM Category_Map cm WHERE cm.CategoryID = ?) AND i.ID = p.itemID and i.hotelID = ? GROUP BY i.ID", [categoryID, rows[0].ID]);
                     console.log(sql);
                     con.query(sql, function (err, result) {
                         if (err) {
