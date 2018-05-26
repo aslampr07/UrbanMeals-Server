@@ -31,20 +31,20 @@ module.exports = function (con) {
                         throw err;
                     }
                     //Push the 'All' category to starting of the array.
-                    rows.unshift({ 'ID': 1, 'name': 'All', 'imageURL': '/assets/categoryimages/default.png' });
+                    rows.unshift({ 'ID': 1, 'name': 'All', 'imageURL': '/assets/categoryimages/default.png', 'code' : 'aaaaaaaa' });
                     var response = {
                         'status': 'success',
                         'result': rows
                     }
-                    res.send(response);
+                    res.json(response);
                 });
             }
             else {
-                var respone = {
+                var response = {
                     'status': 'error',
                     'type': [115]
                 }
-                res.send(respone);
+                res.json(response);
             }
         });
     });
@@ -56,22 +56,25 @@ module.exports = function (con) {
         var token = req.query.token;
 
         if (categoryID == 1) {
-            var sql = mysql.format("SELECT * FROM Hotel WHERE code = ?", [hotelCode]);
+            var sql = mysql.format("SELECT ID FROM Hotel WHERE code = ?", [hotelCode]);
             con.query(sql, function (err, rows) {
                 if (err) {
                     throw err;
                 }
                 if (rows.length > 0) {
-                    var sql = mysql.format("SELECT name, code, min(p.amount) as price FROM Item i, Price p WHERE itemID = i.ID and i.hotelId = ? GROUP BY itemID", [rows[0].ID]);
+                    var sql = mysql.format("SELECT name, code, min(p.amount) as price, (SELECT avg((taste+presentation+quantity)/3) as rating FROM Item_Rating WHERE itemID = i.ID) as rating FROM Item i, Price p WHERE itemID = i.ID and i.hotelId = ? GROUP BY itemID", [rows[0].ID]);
                     con.query(sql, function (err, result) {
                         if (err) {
                             throw err;
                         }
-                        var respone = {
+                        for(let i in result){
+                            result[i].rating = (result[i].rating == null) ? 0.0 : result[i].rating;
+                        }
+                        let response = {
                             'status': 'success',
                             'result': result
                         };
-                        res.json(respone);
+                        res.json(response);
                     });
                 }
                 else {
@@ -90,20 +93,24 @@ module.exports = function (con) {
                     throw err;
                 }
                 if (rows.length > 0) {
-                    var sql = mysql.format("SELECT name, code, MIN(amount) as price FROM Item i, Price p WHERE i.ID in (SELECT cm.ItemID FROM Category_Map cm WHERE cm.CategoryID = ?) AND i.ID = p.itemID and i.hotelID = ? GROUP BY i.ID", [categoryID, rows[0].ID]);
+                    var sql = mysql.format("SELECT name, code, MIN(amount) as price, (SELECT avg((taste+presentation+quantity)/3) as rating FROM Item_Rating WHERE itemID = i.ID) as rating FROM Item i, Price p WHERE i.ID in (SELECT cm.ItemID FROM Category_Map cm WHERE cm.CategoryID = ?) AND i.ID = p.itemID and i.hotelID = ? GROUP BY i.ID", [categoryID, rows[0].ID]);
+                    console.log(sql);
                     con.query(sql, function (err, result) {
                         if (err) {
                             throw err;
                         }
-                        var respone = {
+                        for(let i in result){
+                            result[i].rating = (result[i].rating == null) ? 0.0 : result[i].rating;
+                        }
+                        let response = {
                             'status': 'success',
                             'result': result
                         };
-                        res.json(respone);
+                        res.json(response);
                     });
                 }
                 else {
-                    var respone = {
+                    let respone = {
                         'status': 'error',
                         'type': [115]
                     }
