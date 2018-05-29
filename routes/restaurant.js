@@ -6,6 +6,7 @@ var tokenVerify = require('../tools/verification');
 module.exports = function (con) {
     var router = express.Router();
 
+    //Get the list of the nearby hotels
     router.get('/nearby', function (req, res) {
         if (req.query.lat && req.query.lon && req.query.count) {
             //Validation of the queries have not been done. 
@@ -42,7 +43,7 @@ module.exports = function (con) {
                                 item.rating = 0;
                             }
                             else{
-                                item.rating =rows[i].rating.toFixed(2);
+                                item.rating = Number(rows[i].rating.toFixed(2));
                             }
 
                             if (now.isBetween(a, b)) {
@@ -74,6 +75,7 @@ module.exports = function (con) {
         }
     });
 
+    //Adds rating to the hotels
     router.post('/rating', function(req, res){
         var token = String(req.query.token);
         var hotelCode = String(req.body.hotelcode);
@@ -117,6 +119,8 @@ module.exports = function (con) {
         });
     });
 
+
+    //Get the rating from the hotel
     router.get('/rating', function(req, res){
         var hotelCode = String(req.query.hotelcode);
         
@@ -158,6 +162,7 @@ module.exports = function (con) {
         })
     });
 
+    //Get the hotel Profile from the hotel
     router.get('/profile', function(req, res){
         var hotelCode = String(req.query.hotelcode);
         var token = String(req.query.token);
