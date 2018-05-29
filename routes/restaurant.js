@@ -146,7 +146,7 @@ module.exports = function (con) {
                     else{
                         var response = {
                             'status' : 'success',
-                            'rating' : rows[0].rating.toFixed(2)
+                            'rating' : Number(rows[0].rating.toFixed(2))
                         }
                         res.json(response);
                     }
