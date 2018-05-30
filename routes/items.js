@@ -213,6 +213,12 @@ module.exports = function (con) {
                             }
                         });
                     }
+                    else{
+                        let response = {
+                            "status" : "success"
+                        }
+                        res.json(response);
+                    }
                 })
             }
             else {
