@@ -24,7 +24,7 @@ module.exports = function(con){
                             throw err;
                         }
                         response.count = rows[0];
-                        let sql = mysql.format("SELECT imageURL FROM Item_Pictures WHERE userID = ?", [report.id]);
+                        let sql = mysql.format("SELECT imageURL FROM Item_Pictures WHERE userID = ? ORDER BY creationTime DESC", [report.id]);
                         con.query(sql, function(err, rows){
                             if(err){
                                 throw err;
