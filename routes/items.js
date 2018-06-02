@@ -193,7 +193,7 @@ module.exports = function (con) {
                     "quantity": quantity,
                     "creationTime": new Date()
                 };
-                var sql = mysql.format("INSERT INTO Item_Rating SET ? ON DUPLICATE KEY UPDATE taste = ?, presentation = ?, quantity = ?, creationTime = ?", [data, taste, presentation, quantity, new Date()]);
+                var sql = mysql.format("INSERT INTO Item_Rating SET ? ON DUPLICATE KEY U    PDATE taste = ?, presentation = ?, quantity = ?, creationTime = ?", [data, taste, presentation, quantity, new Date()]);
                 con.query(sql, function (err, rows) {
                     if (err) {
                         throw err;

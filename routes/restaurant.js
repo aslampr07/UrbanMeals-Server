@@ -215,6 +215,20 @@ module.exports = function (con) {
         })
     });
 
+    router.get('/search/suggestion', function(req, res){
+        let token = res.query.token;
+        let query = res.query.query;
+
+        tokenVerify.verify(con, token, function(report){
+            if(report.status == "success"){
+                res.json("success");
+            }
+            else{
+                res.json(report);
+            }
+        });
+    });
+
     function isTimeBetween(start, end){
         var now = moment();
         var a = moment(start, 'hh:mm:ss');
