@@ -216,12 +216,27 @@ module.exports = function (con) {
     });
 
     router.get('/search/suggestion', function(req, res){
-        let token = res.query.token;
-        let query = res.query.query;
+        let token = req.query.token;
+        let query = String(req.query.query);
 
         tokenVerify.verify(con, token, function(report){
             if(report.status == "success"){
-                res.json("success");
+                let sql = mysql.format("SELECT name, code, place FROM Hotel, Hotel_Profile WHERE hotelID = ID AND (MATCH(name) AGAINST (? IN NATURAL LANGUAGE MODE) OR SOUNDEX(name) = SOUNDEX(?) OR name LIKE ?)", [query, query, '%' + query + '%']);
+                con.query(sql, function(err, rows){
+                    if(err){
+                        throw err;
+                    }
+                });
+                con.query(sql, function(err, rows){
+                    if(err){
+                        throw err;
+                    }
+                    let response = {
+                        "status" : "success",
+                        "result" : rows
+                    }
+                    res.json(response);
+                });
             }
             else{
                 res.json(report);

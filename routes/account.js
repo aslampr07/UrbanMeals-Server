@@ -233,6 +233,7 @@ module.exports = function (con) {
                 var sql = mysql.format("SELECT hash FROM User_Password WHERE userID = ?", [userId]);
                 con.query(sql, function (err, result) {
                     var hash = result[0].hash;
+                    //Password comparison is happening here.
                     bcrypt.compare(password, hash, function (err, same) {
                         if (same) {
                             var token = crypto.randomBytes(16).toString('HEX');
