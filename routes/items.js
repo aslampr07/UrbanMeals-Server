@@ -25,14 +25,14 @@ module.exports = function (con) {
             }
             if (rows.length > 0) {
                 let hotelID = rows[0].ID;
-                var sql = mysql.format("SELECT ID, name, image as imageURL, code from Menu_Categories, Category " +
+                var sql = mysql.format("SELECT name, image as imageURL, code from Menu_Categories, Category " +
                     "WHERE hotelID = ? AND categoryID = ID", [hotelID]);
                 con.query(sql, function (err, rows) {
                     if (err) {
                         throw err;
                     }
                     //Push the 'All' category to starting of the array.
-                    rows.unshift({ 'ID': 1, 'name': 'All', 'imageURL': '/assets/categoryimages/default.png', 'code' : 'abcdef1234' });
+                    rows.unshift({ 'name': 'All', 'imageURL': '/assets/categoryimages/default.png', 'code' : 'abcdef1234' });
                     var response = {
                         'status': 'success',
                         'result': rows
@@ -51,77 +51,6 @@ module.exports = function (con) {
     });
 
     //To get all the items of a single menu category to display in digital menu.
-    //[DEPRACATED]
-    router.get("/get", function (req, res) {
-        var categoryID = req.query.categoryid;
-        var hotelCode = req.query.hotelcode;
-        var token = req.query.token;
-
-        if (categoryID == 1) {
-            var sql = mysql.format("SELECT ID FROM Hotel WHERE code = ?", [hotelCode]);
-            con.query(sql, function (err, rows) {
-                if (err) {
-                    throw err;
-                }
-                if (rows.length > 0) {
-                    var sql = mysql.format("SELECT name, code, min(p.amount) as price, (SELECT avg((taste+presentation+quantity)/3) FROM Item_Rating WHERE itemID = i.ID) as rating FROM Item i, Price p WHERE itemID = i.ID and i.hotelId = ? GROUP BY itemID", [rows[0].ID]);
-                    con.query(sql, function (err, result) {
-                        if (err) {
-                            throw err;
-                        }
-                        for(let i in result){
-                            result[i].rating = (result[i].rating == null) ? 0.0 : result[i].rating;
-                        }
-                        let response = {
-                            'status': 'success',
-                            'result': result
-                        };
-                        res.json(response);
-                    });
-                }
-                else {
-                    var respone = {
-                        'status': 'error',
-                        'type': [115]
-                    }
-                    res.json(respone);
-                }
-            });
-        }
-        else if (categoryID > 1) {
-            var sql = mysql.format("SELECT * FROM Hotel WHERE code = ?", [hotelCode]);
-            con.query(sql, function (err, rows) {
-                if (err) {
-                    throw err;
-                }
-                if (rows.length > 0) {
-                    var sql = mysql.format("SELECT name, code, MIN(amount) as price, (SELECT avg((taste+presentation+quantity)/3) FROM Item_Rating WHERE itemID = i.ID) as rating FROM Item i, Price p WHERE i.ID in (SELECT cm.ItemID FROM Category_Map cm WHERE cm.CategoryID = ?) AND i.ID = p.itemID and i.hotelID = ? GROUP BY i.ID", [categoryID, rows[0].ID]);
-                    console.log(sql);
-                    con.query(sql, function (err, result) {
-                        if (err) {
-                            throw err;
-                        }
-                        for(let i in result){
-                            result[i].rating = (result[i].rating == null) ? 0.0 : result[i].rating;
-                        }
-                        let response = {
-                            'status': 'success',
-                            'result': result
-                        };
-                        res.json(response);
-                    });
-                }
-                else {
-                    let respone = {
-                        'status': 'error',
-                        'type': [115]
-                    }
-                    res.json(respone);
-                }
-            });
-        }
-    });
-
     router.get("/menu", function (req, res) {
         let categoryCode = req.query.catcode;
         var hotelCode = req.query.hotelcode;
