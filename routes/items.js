@@ -11,7 +11,8 @@ var tokenVerify = require("../tools/verification");
 module.exports = function (con) {
     var router = express.Router();
     var hash = new hashids("items@urbanmeals", 11);
-    var imagehash = new hashids("images@urbanmeals", 11, "abcdefghijklmnopqrstuvwxyz1234567890_-")
+    var imagehash = new hashids("images@urbanmeals", 11, "abcdefghijklmnopqrstuvwxyz1234567890_-");
+    var categoryHash = new hashids("categories@urbanmeals", 11);
 
     //To get the categories that displays below the Digital Menu.
     router.get("/digitalmenu/categories", function (req, res) {
@@ -31,7 +32,7 @@ module.exports = function (con) {
                         throw err;
                     }
                     //Push the 'All' category to starting of the array.
-                    rows.unshift({ 'ID': 1, 'name': 'All', 'imageURL': '/assets/categoryimages/default.png', 'code' : 'aaaaaaaa' });
+                    rows.unshift({ 'ID': 1, 'name': 'All', 'imageURL': '/assets/categoryimages/default.png', 'code' : 'abcdef1234' });
                     var response = {
                         'status': 'success',
                         'result': rows
@@ -50,6 +51,7 @@ module.exports = function (con) {
     });
 
     //To get all the items of a single menu category to display in digital menu.
+    //[DEPRACATED]
     router.get("/get", function (req, res) {
         var categoryID = req.query.categoryid;
         var hotelCode = req.query.hotelcode;
@@ -119,6 +121,77 @@ module.exports = function (con) {
             });
         }
     });
+
+    router.get("/menu", function (req, res) {
+        let categoryCode = req.query.catcode;
+        var hotelCode = req.query.hotelcode;
+        var token = req.query.token;
+
+        if (categoryCode === "abcdef1234") {
+            var sql = mysql.format("SELECT ID FROM Hotel WHERE code = ?", [hotelCode]);
+            con.query(sql, function (err, rows) {
+                if (err) {
+                    throw err;
+                }
+                if (rows.length > 0) {
+                    var sql = mysql.format("SELECT name, code, min(p.amount) as price, (SELECT avg((taste+presentation+quantity)/3) FROM Item_Rating WHERE itemID = i.ID) as rating FROM Item i, Price p WHERE itemID = i.ID and i.hotelId = ? GROUP BY itemID", [rows[0].ID]);
+                    con.query(sql, function (err, result) {
+                        if (err) {
+                            throw err;
+                        }
+                        for(let i in result){
+                            result[i].rating = (result[i].rating == null) ? 0.0 : result[i].rating;
+                        }
+                        let response = {
+                            'status': 'success',
+                            'result': result
+                        };
+                        res.json(response);
+                    });
+                }
+                else {
+                    var respone = {
+                        'status': 'error',
+                        'type': [115]
+                    }
+                    res.json(respone);
+                }
+            });
+        }
+        else {
+            var sql = mysql.format("SELECT * FROM Hotel WHERE code = ?", [hotelCode]);
+            con.query(sql, function (err, rows) {
+                if (err) {
+                    throw err;
+                }
+                if (rows.length > 0) {
+                    let categoryID = categoryHash.decode(categoryCode)[0];
+                    var sql = mysql.format("SELECT name, code, MIN(amount) as price, (SELECT avg((taste+presentation+quantity)/3) FROM Item_Rating WHERE itemID = i.ID) as rating FROM Item i, Price p WHERE i.ID in (SELECT cm.ItemID FROM Category_Map cm WHERE cm.CategoryID = ?) AND i.ID = p.itemID and i.hotelID = ? GROUP BY i.ID", [categoryID, rows[0].ID]);
+                    con.query(sql, function (err, result) {
+                        if (err) {
+                            throw err;
+                        }
+                        for(let i in result){
+                            result[i].rating = (result[i].rating == null) ? 0.0 : result[i].rating;
+                        }
+                        let response = {
+                            'status': 'success',
+                            'result': result
+                        };
+                        res.json(response);
+                    });
+                }
+                else {
+                    let respone = {
+                        'status': 'error',
+                        'type': [115]
+                    }
+                    res.json(respone);
+                }
+            });
+        }
+    });
+
 
     //To get information about a specific meal. (Meal Profile)
     router.get("/meal", function (req, res) {
