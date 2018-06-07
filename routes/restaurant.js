@@ -59,12 +59,11 @@ module.exports = function (con) {
                             'result': result
                         };
                         res.json(response);
+                        console.log("Accessed Nearby Hotels");
                     });
 
                     var sql = mysql.format("INSERT INTO User_Locations VALUES(?, ?, ?, now())", [status.id, latitude, longitude]);
-
                     con.query(sql, function(err){
-                        console.log("User Location Entered");
                     })
                 }
                 else if(status.status == 'error'){
@@ -198,6 +197,7 @@ module.exports = function (con) {
                                 'result' : result
                             };
                             res.json(response);
+                            console.log("Access Meal Profile");
                         });
                     }
                     else{

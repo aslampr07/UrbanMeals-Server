@@ -39,6 +39,7 @@ module.exports = function (con) {
                         'result': rows
                     }
                     res.json(response);
+                    console.log("Accessed Digital Menu");
                 });
             }
             else {
@@ -156,6 +157,7 @@ module.exports = function (con) {
                             'result': result
                         };
                         res.json(response);
+                        console.log("Accessed Meal Profile");
                     }
                     else {
                         var response = {

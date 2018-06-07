@@ -64,7 +64,7 @@ module.exports = function (con) {
             }
         });
     
-        */
+        */  
 
     router.post('/register', function (req, res) {
         //The Query string values.
@@ -144,6 +144,7 @@ module.exports = function (con) {
                                             request.get(url, function (err, response, body) {
                                                 console.log(body);
                                             });
+                                            console.log(`${firstName} ${lastName} created an account`);
                                             //Completed the commit.
                                         });
                                         //Inserted OTP into the database  
