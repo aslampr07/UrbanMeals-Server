@@ -197,7 +197,7 @@ module.exports = function (con) {
                                 'result' : result
                             };
                             res.json(response);
-                            console.log("Access Meal Profile");
+                            console.log("Accessed Hotel Profile");
                         });
                     }
                     else{
