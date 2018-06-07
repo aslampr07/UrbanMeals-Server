@@ -17,6 +17,7 @@ module.exports = function (con) {
     //To get the categories that displays below the Digital Menu.
     router.get("/digitalmenu/categories", function (req, res) {
         var hotelCode = req.query.hotelcode;
+        let token = req.query.token;
 
         var sql = mysql.format("SELECT ID FROM Hotel WHERE code = ?", [hotelCode]);
         con.query(sql, function (err, rows) {
@@ -32,7 +33,7 @@ module.exports = function (con) {
                         throw err;
                     }
                     //Push the 'All' category to starting of the array.
-                    rows.unshift({ 'name': 'All', 'imageURL': '/assets/categoryimages/default.png', 'code' : 'abcdef1234' });
+                    rows.unshift({ 'name': 'All', 'imageURL': '/assets/categoryimages/all.png', 'code' : 'abcdef1234' });
                     var response = {
                         'status': 'success',
                         'result': rows
