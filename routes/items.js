@@ -548,6 +548,7 @@ module.exports = function (con) {
                         "result" : mainItems
                     }
                     res.json(response);
+                    console.log("Accessed Explore Page");
                 });
             }
             else{
