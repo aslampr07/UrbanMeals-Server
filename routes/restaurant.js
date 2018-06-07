@@ -23,7 +23,7 @@ module.exports = function (con) {
                     var sql = mysql.format("SELECT name, code, calculate_distance(latitude, longitude, ?, ?)" +
                         " AS distance, type, openingTime, closingTime, (SELECT AVG(rating) FROM Hotel_Rating WHERE hotelID = h.ID) as rating FROM Hotel h ORDER BY distance LIMIT ?", [latitude, longitude, count]);*/
                         var sql = mysql.format("SELECT name, code, calculate_distance(latitude, longitude, ?, ?)" +
-                        " AS distance, type, openingTime, closingTime, (SELECT AVG(rating) FROM Hotel_Rating WHERE hotelID = h.ID) as rating FROM Hotel h ORDER BY distance", [latitude, longitude]);
+                        " AS distance, type, openingTime, closingTime, (SELECT AVG(rating) FROM Hotel_Rating WHERE hotelID = h.ID) as rating FROM Hotel h WHERE enabled = 'Y' ORDER BY distance", [latitude, longitude]);
                     con.query(sql, function (err, rows) {
                         if (err)
                             throw err;
