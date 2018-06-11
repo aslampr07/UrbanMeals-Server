@@ -17,5 +17,7 @@ app.use('/api/1.0/items', require('./routes/items')(con));
 app.use('/api/1.0/account', require('./routes/account')(con));
 app.use('/api/1.0/profile', require('./routes/profile')(con));
 
+app.use('/api/1.1/restaurant', require("./routes/v1.1/restaurant"));
+
 //app.use('/api/1.0/survey', require('./routes/survey')(con));
 app.listen(8000);

@@ -11,7 +11,7 @@ module.exports = function(con){
         
         tokenVerify.verify(con, token, function(report){
             if(report.status == "success"){
-                let sql = mysql.format("SELECT firstName, lastName, blogger FROM User_Profile, User WHERE userID = ID AND userID = ?", [report.id]);
+                let sql = mysql.format("SELECT firstName, lastName, website, blogger FROM User_Profile, User WHERE userID = ID AND userID = ?", [report.id]);
                 con.query(sql, function(err, rows){
                     if(err){
                         throw err;
@@ -37,6 +37,19 @@ module.exports = function(con){
                         });
                     });
                 });
+            }
+            else{
+                res.json(report);
+            }
+        });
+    });
+
+    router.post('/edit', function(req, res){
+        let token = req.query.token;
+
+        tokenVerify.verify(con, token, function(report){
+            if(report.status == "success"){
+
             }
             else{
                 res.json(report);

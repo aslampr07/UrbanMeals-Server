@@ -72,11 +72,12 @@ module.exports = function (con) {
             });
             //Retrieves the items
         }
-    });
+    }); 
 
     //Adds rating to the hotels
     router.post('/rating', function(req, res){
         var token = String(req.query.token);
+        
         var hotelCode = String(req.body.hotelcode);
         var rating = Number(req.body.rating);
 
@@ -162,6 +163,9 @@ module.exports = function (con) {
     });
 
     //Get the hotel Profile from the hotel
+    /**
+     * @deprecated
+     */
     router.get('/profile', function(req, res){
         var hotelCode = String(req.query.hotelcode);
         var token = String(req.query.token);

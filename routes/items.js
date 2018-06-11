@@ -179,8 +179,8 @@ module.exports = function (con) {
     //For posting the rating about an item.
     router.post("/rate", function (req, res) {
         var token = String(req.query.token);
-        var itemCode = String(req.body.itemcode);
 
+        var itemCode = String(req.body.itemcode);
         var taste = Number(req.body.taste);
         var presentation = Number(req.body.presentation);
         var quantity = Number(req.body.quantity);
