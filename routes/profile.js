@@ -11,12 +11,15 @@ module.exports = function(con){
         
         tokenVerify.verify(con, token, function(report){
             if(report.status == "success"){
-                let sql = mysql.format("SELECT firstName, lastName, website, blogger FROM User_Profile, User WHERE userID = ID AND userID = ?", [report.id]);
+                let sql = mysql.format("SELECT firstName, lastName, website, (select body from User_Bio where userID = ID) as bio, blogger FROM User_Profile, User WHERE userID = ID AND userID = ?", [report.id]);
                 con.query(sql, function(err, rows){
                     if(err){
                         throw err;
                     }
                     let response = rows[0];
+                    //If the bio is null
+                    if(response.bio == null)
+                        response.bio = "";
                     //Getting the count of rating and photos
                     let sql = mysql.format("SELECT (SELECT COUNT(*) FROM Item_Review, Item_Rating WHERE ratingID = ID and userID = ?) as reviews, (SELECT COUNT(*) FROM Item_Pictures WHERE userID = ?) as photos FROM DUAL", [report.id, report.id]);
                     con.query(sql,function(err, rows){
