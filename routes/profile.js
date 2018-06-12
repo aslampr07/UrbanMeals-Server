@@ -6,6 +6,7 @@ var tokenVerify = require('../tools/verification')
 module.exports = function(con){
     let router = express.Router();
 
+    //To retreive the current user's profile based on the session token.
     router.get('/', function(req, res){
         var token = String(req.query.token);
         
@@ -47,18 +48,78 @@ module.exports = function(con){
         });
     });
 
+    //This function is used to edit the profile of the user based on the session token.
     router.post('/edit', function(req, res){
         let token = req.query.token;
+        let firstName = req.body.firstname;
+        let lastName = req.body.lastname;
+        let website = req.body.website;
+        let bio = req.body.bio; 
 
-        tokenVerify.verify(con, token, function(report){
-            if(report.status == "success"){
 
+
+        tokenVerify.verify(con, token, function(verificationReport){
+            if(verificationReport.status == "success"){
+                verfiydata(firstName, lastName, website, bio, function(report){
+                    if(report.status == "success"){
+                        let data = {
+                            "firstName" : firstName,
+                            "lastName" : lastName,
+                            "website" : website
+                        };
+                        let sql = mysql.format("UPDATE User_Profile SET ? WHERE userID = ?", [data, [verificationReport.id]]);
+                        con.query(sql, function(err, rows){
+                            if(err){
+                                throw err;
+                            }
+                            let sql = mysql.format("INSERT INTO User_Bio VALUES(? , ?) ON DUPLICATE KEY UPDATE body = ?", [verificationReport.id, bio, bio]);
+                            con.query(sql, function(err, rows){
+                                if(err){
+                                    throw err;
+                                }
+                                let response = {
+                                    "status" : "success"
+                                }
+                                res.json(response);
+                            })
+                        });
+                    }
+                    else{
+                        res.json(report);
+                    }
+                });
             }
             else{
                 res.json(report);
             }
         });
     });
+
+    function verfiydata(firstname, lastname, website, bio, cb){
+        let response = {
+            "status" : "success",
+            "type" : []
+        }
+        if(!/^[A-z ]+$/.test(firstname)){
+            response.status = "error";
+            response.type.push(104);
+        }
+        if(!/^[A-z ]+$/.test(lastname)){
+            response.status = "error";
+            response.type.push(105);
+        }
+        if(bio.length > 150){
+            response.status = "error";
+            response.type.push(119);
+        }
+        if(response.status == "error"){
+            cb(response);
+        }
+        else{
+            delete response.type;
+            cb(response);
+        }
+    }
 
     return router;
 }
