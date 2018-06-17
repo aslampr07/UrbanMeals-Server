@@ -12,7 +12,7 @@ module.exports = function(con){
         
         tokenVerify.verify(con, token, function(report){
             if(report.status == "success"){
-                let sql = mysql.format("SELECT firstName, lastName, website, (select body from User_Bio where userID = ID) as bio, blogger FROM User_Profile, User WHERE userID = ID AND userID = ?", [report.id]);
+                let sql = mysql.format("SELECT firstName, lastName, website, (select body from User_Bio where userID = ID) as bio, displayPicture,  blogger FROM User_Profile, User WHERE userID = ID AND userID = ?", [report.id]);
                 con.query(sql, function(err, rows){
                     if(err){
                         throw err;
