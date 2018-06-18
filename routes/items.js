@@ -283,7 +283,7 @@ module.exports = function (con) {
                 con.query(sql, function (err, rows) {
                     if (rows.length > 0) {
                         if (!pic) {
-                            let reponse = {
+                            let response = {
                                 "status": "error",
                                 "type": [118]
                             }
@@ -389,7 +389,6 @@ module.exports = function (con) {
                                                 });
 
                                             });
-
                                     });
                                 });
                             }
