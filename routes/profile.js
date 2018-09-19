@@ -38,7 +38,11 @@ module.exports = function (con) {
                             response.images = rows.map(function (obj) {
                                 return obj.imageURL;
                             })
-                            res.json(response);
+                            let output = {
+                                "status" : "success",
+                                "result" : response
+                            }
+                            res.json(output);
                         });
                     });
                 });

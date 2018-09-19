@@ -387,7 +387,6 @@ module.exports = function (con) {
                                                         })
                                                     })
                                                 });
-
                                             });
                                     });
                                 });
@@ -496,7 +495,7 @@ module.exports = function (con) {
                                 "result" : rows
                             }
                             res.json(response);
-                        })
+                        });
                     }
                     else{
                         let response = {
