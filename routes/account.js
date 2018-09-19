@@ -143,7 +143,6 @@ module.exports = function (con) {
                                             var url = `http://sapteleservices.com/SMS_API/sendsms.php?username=URBAN07&password=urban@meals&mobile=${phone}&sendername=UMTEAM&message=${pin}+is+your+phone+verification+pin.+Welcome+to+Urban+Meals.&routetype=1`;
                                             request.get(url, function (err, response, body) {
                                             });
-                                            console.log(`${firstName} ${lastName} created an account`);
                                             //Completed the commit.
                                         });
                                         //Inserted OTP into the database  
