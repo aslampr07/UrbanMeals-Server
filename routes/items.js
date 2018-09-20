@@ -278,6 +278,7 @@ module.exports = function (con) {
                 var userID = report.id;
                 var itemID = hash.decode(itemcode)[0];
                 var sql = mysql.format("SELECT * FROM Item WHERE ID = ?", [itemID]);
+                console.log("Upload Request")
                 con.query(sql, function (err, rows) {
                     if (rows.length > 0) {
                         if (!pic) {
@@ -286,16 +287,18 @@ module.exports = function (con) {
                                 "type": [118]
                             }
                             res.json(response);
+                            console.log("Upload failed: 118")
                         }
                         else {
                             if (pic.mimetype == "image/png" || pic.mimetype == "image/jpeg" || pic.mimetype == "image/jpg") {
                                 //if (true) {
-
+                                console.log("Upload mime type is correct")
                                 var buffer = pic.data;
                                 jimp.read(buffer, function (err, img) {
                                     if (err)
                                         throw err;
-
+                                    
+                                    console.log("Upload, file is an image");
                                     var filename = String(Math.floor(100000000000 + Math.random() * 900000000000)) + Math.floor(100000000000 + Math.random() * 900000000000);
                                     var height = img.bitmap.height;
                                     var width = img.bitmap.width;
@@ -312,9 +315,11 @@ module.exports = function (con) {
                                         }
                                     }
                                     img = img.resize(width, height).quality(70);
+                                    console.log("Upload, image size is reduced")
                                     img.write(`public/assets/items/${filename}.jpg`, function () {
                                         //Creating The thumbnail.
                                         //SET the thumbnail size
+                                        console.log("Upload, Image is written to file.");
                                         var THUMBNAIL_SIZE = 161;
                                         var thumpHeight = img.bitmap.height;
                                         var thumpWidth = img.bitmap.width;
