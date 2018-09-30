@@ -100,7 +100,7 @@ module.exports = function (con) {
 
         tokenVerify.verify(con, token, function (report){
             if(report.status == "success"){
-                let sql = "SELECT code, bannerURL FROM Hotel, Hotel_Promotion_Banner WHERE hotelID = ID";
+                let sql = "SELECT code, bannerURL, name FROM Hotel, Hotel_Promotion_Banner WHERE hotelID = ID";
                 con.query(sql, function (err, rows) {
                     if (err) {
                         throw err;
