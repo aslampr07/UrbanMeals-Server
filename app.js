@@ -19,6 +19,7 @@ app.use('/api/1.0/profile', require('./routes/profile')(con));
 
 //New versioning system.
 app.use('/api/restaurant', require("./routes/v1.1/restaurant")(con));
+app.use('/api/admin', require("./routes/v1.1/admin")(con));
 
 //app.use('/api/1.0/survey', require('./routes/survey')(con));
 app.listen(8000);
