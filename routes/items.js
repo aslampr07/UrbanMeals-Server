@@ -273,12 +273,13 @@ module.exports = function (con) {
         var itemcode = req.query.itemcode;
         var pic = req.files.image;
 
+        console.log("Upload Request")
         tokenVerify.verify(con, token, function (report) {
             if (report.status == "success") {
                 var userID = report.id;
                 var itemID = hash.decode(itemcode)[0];
                 var sql = mysql.format("SELECT * FROM Item WHERE ID = ?", [itemID]);
-                console.log("Upload Request")
+                console.log("Verfication Completed");
                 con.query(sql, function (err, rows) {
                     if (rows.length > 0) {
                         if (!pic) {
@@ -348,6 +349,7 @@ module.exports = function (con) {
                                         //Final Cropping and writing of the image.
                                         thumbnail.crop(x, y, THUMBNAIL_SIZE, THUMBNAIL_SIZE)
                                             .write(`public/assets/items/${filename}_thumb.jpg`, function () {
+                                                console.log("Image is cropped")
                                                 con.beginTransaction(function (err) {
                                                     if (err) {
                                                         throw err;

@@ -26,5 +26,17 @@ module.exports = {
             }
             callback(response);
         });
+    },
+
+    isAdmin: function(con, token, hotelCode, callback){
+        this.verify(con, token, function(report){
+            if(report.status == "success"){
+                let sql = mysql.format("SELECT *")
+            }
+            else{
+                callback(report)
+            }
+        });
     }
+    
 }
