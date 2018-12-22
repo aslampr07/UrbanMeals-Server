@@ -9,63 +9,7 @@ var request = require('request');
 
 module.exports = function (con) {
     var router = express.Router();
-    /*
-        //this request was used for registering the prime members.
-        router.post('/register', function (req, res) {
-            var name = req.body.name;
-            var email = req.body.email;
-            var phone = req.body.phone;
     
-            var id = new Hashid("Launching Soon", 5);
-    
-            if (true) {
-                var sql = mysql.format('SELECT * FROM WebUser WHERE email = ?', [email]);
-                con.query(sql, function (err, result) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    if (result.length > 0) {
-                        var response = {
-                            'status' : 'error',
-                            'type': 'emailAlreadyExist'
-                        };
-                        res.send(response);
-                    }
-                    else {
-                        var random = parseInt(Math.random() * 100000);
-                        var voucher = id.encode(random);
-                        var data = {
-                            'name' : name,
-                            'email' : email,
-                            'phone' : phone, 
-                            'voucher': voucher,
-                            'creationTime' : new Date()
-                        };
-                        var sql = mysql.format('INSERT INTO WebUser SET ?', [data]);
-                        con.query(sql, function (err, result) {
-                            if (err) {
-                                console.log(err)
-                            }
-                            var response = {
-                                'status': 'success',
-                            }
-                            res.send(response);
-                        });
-                    }
-    
-                });
-            }
-            else {
-                var response = {
-                    'status': 'error',
-                    'type': 'EmailNotValid'
-                };
-                res.send(response);
-            }
-        });
-    
-        */  
-
     router.post('/register', function (req, res) {
         //The Query string values.
         var firstName = String(req.body.firstname).trim();
@@ -177,8 +121,8 @@ module.exports = function (con) {
                 throw err;
             }
             if (result.length > 0) {
-                //Change from 10000 to 10 minutes in production.
-                if (result[0].time > 1000) {
+                //verify for 7 days = 10080 minutes
+                if (result[0].time > 10080) {
                     var response = {
                         'status': 'error',
                         'type': [109]
