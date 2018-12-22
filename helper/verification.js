@@ -70,10 +70,12 @@ class Verfication {
 }
 
 class HotelAdmin{
+
     constructor(con){
         this._con = con;
     }
 
+    //For retreiving the general information about the Hotel and its admin.
     getHotelProfileAdmin(hotelID, userID) {
         let sql = mysql.format(`SELECT name, code, CONCAT(firstname, " ", lastname) AS admin, street, place, city, pincode, hp.phone as phone, body as description
                                 FROM Hotel h, User_Profile u, Hotel_Admins ha, Hotel_Profile hp, Hotel_Description hd 
