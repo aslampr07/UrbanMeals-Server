@@ -1,4 +1,5 @@
 "use strict";
+
 var express = require('express');
 var con = require('./config/db');
 var fileupload = require('express-fileupload')
@@ -11,6 +12,9 @@ app.use(fileupload());
 //Websites
 app.use('/', express.static('public'));
 
+/**
+ * @NearEndOfLife
+ */
 //Routes
 app.use('/api/1.0/restaurant', require('./routes/restaurant')(con));
 app.use('/api/1.0/items', require('./routes/items')(con));
@@ -21,5 +25,10 @@ app.use('/api/1.0/profile', require('./routes/profile')(con));
 app.use('/api/restaurant', require("./routes/v1.1/restaurant")(con));
 app.use('/api/admin', require("./routes/v1.1/admin")(con));
 
+//New Routes-Controller-Model system
+
+app.use('/api', require('./routes/v2/routes'))
+
 //app.use('/api/1.0/survey', require('./routes/survey')(con));
 app.listen(8000);
+
