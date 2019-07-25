@@ -17,7 +17,7 @@ exports.nearbyHotelController = async (req, res) => {
 
                 //Converting the null rating to zero
                 rows.map(obj => {
-                    obj.rating = (obj.rating) ? obj.rating : 0
+                    obj.rating = (obj.rating) ? obj.rating : 0.0
                 });
 
                 let response = {
